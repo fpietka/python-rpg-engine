@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
-import constraint
+try:
+    import constraint
+except ImportError:
+    print "You will need python-constraint module ... eventually"
 
 tileset_config = {
     'name': 'GRS2ROC.bmp', 'height': 40, 'width': 40, 'map': (
