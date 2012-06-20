@@ -40,6 +40,8 @@ spriteset1 = {
         (sprite[0] + 64, sprite[1] + 64),
         (sprite[0] + 64, sprite[1] + 96)
     )}
+
+
 class Background(object):
     def __init__(self, fouraxis=True):
         self.x_velocity = 0
@@ -48,7 +50,7 @@ class Background(object):
         self.movestack = list()
         # Set movement type
         self.fouraxis = fouraxis
-        self.movesquare = False # XXX will be used to move full squares
+        self.movesquare = False  # XXX will be used to move full squares
 
     # TODO refactor, this is ugly
     def accel(self):
@@ -62,6 +64,7 @@ class Background(object):
             self.y_velocity = 6
         if self.y_velocity == -3:
             self.y_velocity = -6
+
     def decel(self):
         if self.speed == 6:
             self.speed = 3
@@ -104,9 +107,11 @@ class Background(object):
 
     def move(self):
         global x_axis, y_axis
-        if not self.fouraxis or len(self.movestack) == 0 or self.movestack[0] != 'vertical':
+        if (not self.fouraxis or len(self.movestack) == 0 or
+                self.movestack[0] != 'vertical'):
             x_axis += self.x_velocity
-        if not self.fouraxis or len(self.movestack) == 0 or self.movestack[0] != 'horizontal':
+        if (not self.fouraxis or len(self.movestack) == 0 or
+            self.movestack[0] != 'horizontal'):
             y_axis += self.y_velocity
         # Set moving
         global MOVING
@@ -124,8 +129,10 @@ class Background(object):
         if y_axis + self.y_velocity < -(MAPSIZE[1] / 2):
             y_axis = -(MAPSIZE[1] / 2)
 
+
 class PlayerGroup(pygame.sprite.Group):
     "Group for player class"
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
