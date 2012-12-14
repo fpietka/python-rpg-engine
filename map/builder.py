@@ -40,7 +40,20 @@ class Builder():
 
     def build_tileset(self):
         "Build tile set"
+        """
+        from xml.dom import minidom
+        from base64 import b64decode
+        from zlib import decompress
 
+        data = minidom.parse('map.tmx').documentElement
+
+        for layer in data.getElementsByTagName('layer'):
+            element = layer.getElementsByTagName('data')[0].firstChild.data
+            for char in decompress(b64decode(element)):
+                if ord(char) not in (0, 40):
+                    print ord(char)
+
+        """
         fond = pygame.image.load(tileset_config['name']).convert()
         width = tileset_config['width']
         height = tileset_config['height']
