@@ -68,10 +68,9 @@ class Background(object):
         xMainSprite, yMainSprite = self.sprites[self.mainSprite].xPos, self.sprites[self.mainSprite].yPos
 
         #move camera if not out of world boundaries
-        if xMainSprite - RESOLUTION[0] / 2 > 0 and xMainSprite + RESOLUTION[0] / 2 < MAPSIZE[0]:
-            self.xCamera = xMainSprite - RESOLUTION[0] / 2
-        if yMainSprite - RESOLUTION[1] / 2 > 0 and yMainSprite + RESOLUTION[1] / 2 < MAPSIZE[1]:
-            self.yCamera = yMainSprite - RESOLUTION[1] / 2
+        self.xCamera = max(0, min(MAPSIZE[0] - RESOLUTION[0], xMainSprite - RESOLUTION[0] / 2)) * -1
+        self.yCamera = max(0, min(MAPSIZE[1] - RESOLUTION[1], yMainSprite - RESOLUTION[1] / 2)) * -1
+
 
     def setMainSprite(self, sprite):
         self.setSprite(sprite)
