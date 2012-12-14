@@ -209,15 +209,6 @@ class Player(pygame.sprite.Sprite):
         else:
             self.movestack.remove('horizontal')
 
-    def move(self):
-        self.xPos += self.x_velocity
-        self.yPos += self.y_velocity
-        # Set moving
-        global MOVING
-        if self.x_velocity == 0 and self.y_velocity == 0:
-            MOVING = False
-        else:
-            MOVING = True
 
 class Game():
     def __init__(self):
