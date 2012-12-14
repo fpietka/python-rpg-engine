@@ -58,7 +58,7 @@ class Background(object):
     def update(self):
         for s in self.sprites:
             s.updatePosition()
-            s.update(pygame.time.get_ticks())
+            s.updateFrame(pygame.time.get_ticks())
 
         self.updateFocus()
 
@@ -111,7 +111,7 @@ class Player(pygame.sprite.Sprite):
     def updatePosition(self):
         pass
 
-    def update(self, tick):
+    def updateFrame(self, tick):
         if not MOVING:
             self.frame = 0
         elif tick - self._last_update > self._delay:
