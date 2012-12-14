@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
                 self.frame = 2
             self.animation += .5
         try:
-            direction = self.default_direction = self.direction[-1]
+            direction = self.default_direction = self.direction[0]
         except IndexError:
             direction = self.default_direction
         self.image = self.spriteset[direction][self.frame].convert()
