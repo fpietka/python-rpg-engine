@@ -100,8 +100,8 @@ class Player(pygame.sprite.Sprite):
         self.default_direction = 'down'
         self.image = self.spriteset['down'][self.frame].convert()
         self.rect = self.image.get_rect()
-        self.rect.center = (800 / 2, 600 / 2)
         self.xPos, self.yPos = 0, 0;
+        self.rect.center = (RESOLUTION[0] / 2, RESOLUTION[1] / 2)
         self.x_velocity = 0
         self.y_velocity = 0
         self.speed = 3
