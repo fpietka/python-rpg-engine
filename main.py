@@ -269,38 +269,38 @@ class Game():
                     return False
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.background.accel()
+                    self.player.accel()
                 # movement control
                 if event.key == pygame.K_UP:
                     self.player.direction.append('up')
-                    self.player.moveup()
+                    self.player.movedown()
                 if event.key == pygame.K_DOWN:
                     self.player.direction.append('down')
-                    self.player.movedown()
+                    self.player.moveup()
                 if event.key == pygame.K_LEFT:
                     self.player.direction.append('left')
-                    self.player.moveleft()
+                    self.player.moveright()
                 if event.key == pygame.K_RIGHT:
                     self.player.direction.append('right')
-                    self.player.moveright()
+                    self.player.moveleft()
             elif event.type == pygame.KEYUP:
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.background.decel()
+                    self.player.decel()
                 # stop movement control
                 if event.key == pygame.K_UP:
                     self.player.direction.remove('up')
-                    self.player.movedown()
+                    self.player.moveup()
                 if event.key == pygame.K_DOWN:
                     self.player.direction.remove('down')
-                    self.player.moveup()
+                    self.player.movedown()
                 if event.key == pygame.K_LEFT:
                     self.player.direction.remove('left')
-                    self.player.moveright()
+                    self.player.moveleft()
                 if event.key == pygame.K_RIGHT:
                     self.player.direction.remove('right')
-                    self.player.moveleft()
-        self.player.move()
+                    self.player.moveright()
+        #~ self.player.move()
         # TODO make the sprite move too
         return True
 
