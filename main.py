@@ -53,6 +53,24 @@ class Background(object):
         #coordinates (top left point) of the camera view in the world
         self.xCamera, self.yCamera = 0, 0;
 
+    def update(self):
+        for s in self.sprites:
+            s.updatePosition()
+            s.update(pygame.time.get_ticks())
+
+        self.updateFocus()
+
+    def updateFocus(self):
+        #~ self.move()
+        #get mainSprite (new) coordinates in the world
+        xMainSprite, yMainSprite = self.sprites[self.mainSprite].rect.center
+
+        #move camera if not out of world boundaries
+        if xMainSprite - RESOLUTION[0] / 2 > 0 and xMainSprite + RESOLUTION[0] / 2 < MAPSIZE[0]:
+            self.xCamera = xMainSprite - RESOLUTION[0] / 2
+        if yMainSprite - RESOLUTION[1] / 2 > 0 and yMainSprite + RESOLUTION[1] / 2 < MAPSIZE[1]:
+            self.yCamera = yMainSprite - RESOLUTION[1] / 2
+
     def setMainSprite(self, sprite):
         self.setSprite(sprite)
         self.mainSprite = self.sprites.index(sprite)
@@ -88,6 +106,8 @@ class Player(pygame.sprite.Sprite):
         self.speed = 3
         self.movestack = list()
 
+    def updatePosition(self):
+        pass
 
     def update(self, tick):
         if not MOVING:
