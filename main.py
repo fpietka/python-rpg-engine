@@ -13,8 +13,6 @@ MOVING = False
 
 white = 255, 255, 255
 
-x_axis = 0
-y_axis = 0
 
 # sprite sets, with mapping containing (top, left)
 sprite_size = (96, 128)
@@ -63,7 +61,6 @@ class Background(object):
         self.updateFocus()
 
     def updateFocus(self):
-        #~ self.move()
         #get mainSprite (new) coordinates in the world
         xMainSprite, yMainSprite = self.sprites[self.mainSprite].xPos, self.sprites[self.mainSprite].yPos
 
@@ -300,7 +297,7 @@ class Game():
                 if event.key == pygame.K_RIGHT:
                     self.player.direction.remove('right')
                     self.player.moveright()
-        #~ self.player.move()
+
         # TODO make the sprite move too
         return True
 
