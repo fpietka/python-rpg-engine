@@ -25,8 +25,10 @@ for x in range(0, 10):
 # choice of the sprite here
 sprite = sprites[0]
 
+characterSizeX, characterSizeY = 32, 32
+
 spriteset1 = {
-    'name': 'dpnpcsq.png', 'height': 32, 'width': 32, 'map': (
+    'name': 'dpnpcsq.png', 'height': characterSizeY, 'width': characterSizeX, 'map': (
         (sprite[0], sprite[1]),
         (sprite[0], sprite[1] + 32),
         (sprite[0], sprite[1] + 64),
