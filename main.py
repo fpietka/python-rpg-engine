@@ -65,7 +65,7 @@ class Background(object):
     def updateFocus(self):
         #~ self.move()
         #get mainSprite (new) coordinates in the world
-        xMainSprite, yMainSprite = self.sprites[self.mainSprite].rect.center
+        xMainSprite, yMainSprite = self.sprites[self.mainSprite].xPos, self.sprites[self.mainSprite].yPos
 
         #move camera if not out of world boundaries
         if xMainSprite - RESOLUTION[0] / 2 > 0 and xMainSprite + RESOLUTION[0] / 2 < MAPSIZE[0]:
