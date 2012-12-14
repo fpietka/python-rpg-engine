@@ -224,9 +224,11 @@ class Player(pygame.sprite.Sprite):
 
 class Game():
     def __init__(self):
+        global MAPSIZE
         pygame.init()
         self.screen = pygame.display.set_mode(RESOLUTION)
         self.fond = Builder().load()
+        MAPSIZE = self.fond.get_width(), self.fond.get_height()
         self.background = Background(False)
         self.screen.blit(self.fond, (self.background.xCamera, self.background.yCamera))
         pygame.display.flip()
