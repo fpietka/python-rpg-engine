@@ -199,6 +199,9 @@ class Game():
         # TODO avoid acting on sprite and do actions on group?
         self.sprite = Player()
         self.player = PlayerGroup(self.sprite)
+        # Blit player
+        self.player.draw(self.screen)
+        pygame.display.flip()
 
     def run(self):
         running = True
