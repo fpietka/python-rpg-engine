@@ -245,11 +245,11 @@ class Game():
             pygame.time.Clock().tick(FPS)
             running = self.handleEvents()
             self.background.update()
-            # Blit background
-            self.screen.blit(self.fond, (x_axis, y_axis))
             # Blit sprite
             self.playerGroup.update(pygame.time.get_ticks())
-            self.playerGroup.draw(self.screen)
+            self.playerGroup.draw(self.fond)
+            # Blit background
+            self.screen.blit(self.fond, (self.background.xCamera, self.background.yCamera))
             # update part of the script
             rect = pygame.Rect(0, 0, 800, 600)
             pygame.display.update(rect)
