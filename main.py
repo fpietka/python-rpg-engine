@@ -209,16 +209,65 @@ class Game():
         while running:
             pygame.time.Clock().tick(FPS)
             running = self.handleEvents()
-            # Blit background
-            self.screen.blit(self.fond, (x_axis, y_axis))
-            # Blit sprite
-            self.player.update(pygame.time.get_ticks())
-            self.player.draw(self.screen)
-            # update part of the script
-            rect = pygame.Rect(0, 0, 800, 600)
-            pygame.display.update(rect)
-            # update all the screen
-            #pygame.display.flip()
+            if self.background.moving:
+                # Blit background
+                self.fond = self.builder.update((x_axis * -1, y_axis * -1))
+                self.screen.blit(self.fond, (0, 0))
+                # Blit sprite
+                self.player.update(pygame.time.get_ticks())
+                self.player.draw(self.screen)
+                # update all the screen
+                pygame.display.flip()
+
+    def truc(self):
+        # always use original, else it'll got distorded
+        screen = self.screen.subsurface(0, 0, 800, 600)
+        orig_screen = screen.copy()
+        orig_rect = orig_screen.get_rect()
+        from time import sleep
+        alpha = 255
+        black_screen = pygame.Surface((800, 600))
+        black_screen.fill((0, 0, 0))
+        for i in range(1, 360):
+            """rotate an image while keeping its center and size"""
+            # Rotation
+            #rot_image = pygame.transform.rotate(screen, i)
+            # Rotozoom
+            angle = 1
+            #scale = 1 + i * 0.01
+            scale = 1.05
+            rot_image = pygame.transform.rotozoom(screen, angle, scale)
+            # Zoom
+            #rot_image = pygame.transform.smoothscale(screen, (800 + int(i * 1.5), 600 + int(i * 1.5)))
+
+            rot_rect = orig_rect.copy()
+            rot_rect.center = rot_image.get_rect().center
+            # XXX why?
+            test = rot_image.subsurface(rot_rect).copy()
+            test.set_alpha(alpha)
+            self.screen.blit(black_screen, (0, 0))
+            self.screen.blit(test, (0, 0))
+            if alpha <= 245:
+                break
+            alpha -= 0.1
+            rot_image = None
+            rot_rect = None
+            #test = None
+            pygame.display.flip()
+            #pygame.display.update((0, 0), (800, 600))
+            #sleep(0.01)
+
+        import sys
+        sys.exit()
+
+        from fx import effects
+        saved_screen = effects.Effects().mosaic(self.screen)
+        #self.screen.blit(saved_screen, (0, 0))
+        #pygame.display.flip()
+        old_screen = effects.Effects().mosaic(saved_screen, True)
+        import sys
+        sys.exit()
+        return True
 
     def handleEvents(self):
         # poll for pygame events
@@ -228,6 +277,11 @@ class Game():
 
             # handle user input
             elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_t:
+                    # XXX speed that up!
+                    #cProfile.run('Game().truc()')
+                    self.truc()
+
                 # if the user presses escape or 'q', quit the event loop.
                 if event.key in (pygame.K_ESCAPE, pygame.K_q):
                     return False
@@ -283,4 +337,7 @@ class Game():
 # create a game and run it
 if __name__ == '__main__':
     game = Game()
+    # XXX test only
+    import cProfile
+    #cProfile.run('Game().run()')
     game.run()
