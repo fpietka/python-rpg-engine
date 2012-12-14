@@ -199,8 +199,8 @@ class Game():
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         self.background = Background()
         # TODO avoid acting on sprite and do actions on group?
-        self.sprite = Player()
-        self.player = PlayerGroup(self.sprite)
+        self.player = Player()
+        self.playerGroup = PlayerGroup(self.player)
 
     def run(self):
         running = True
@@ -211,8 +211,8 @@ class Game():
             # Blit background
             self.screen.blit(self.fond, (x_axis, y_axis))
             # Blit sprite
-            self.player.update(pygame.time.get_ticks())
-            self.player.draw(self.screen)
+            self.playerGroup.update(pygame.time.get_ticks())
+            self.playerGroup.draw(self.screen)
             # update part of the script
             rect = pygame.Rect(0, 0, 800, 600)
             pygame.display.update(rect)
