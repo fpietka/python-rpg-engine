@@ -46,7 +46,18 @@ class Background(object):
     def __init__(self, fouraxis=True):
         # Set movement type
         self.fouraxis = fouraxis
-        self.movesquare = False  # XXX will be used to move full squares
+        self.movesquare = False # XXX will be used to move full squares
+
+        self.sprites = list()
+        self.mainSprite = None
+
+    def setMainSprite(self, sprite):
+        self.setSprite(sprite)
+        self.mainSprite = self.sprites.index(sprite)
+
+    def setSprite(self, sprite):
+        if sprite not in self.sprites:
+            self.sprites.append(sprite)
 
 
 class PlayerGroup(pygame.sprite.Group):
