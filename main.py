@@ -217,7 +217,7 @@ class Game():
         self.screen = pygame.display.set_mode(RESOLUTION)
         self.fond = Builder().load()
         self.background = Background(False)
-        self.screen.blit(self.fond, (x_axis, y_axis))
+        self.screen.blit(self.fond, (self.background.xCamera, self.background.yCamera))
         pygame.display.flip()
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         # TODO avoid acting on sprite and do actions on group?
