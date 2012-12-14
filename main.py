@@ -148,9 +148,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = (800 / 2, 600 / 2)
 
     def update(self, tick):
-        if not MOVING:
-            self.frame = 0
-        elif tick - self._last_update > self._delay:
+        "Update sprite animation frame"
+        if tick - self._last_update > self._delay:
             self._last_update = tick
             # frame should go 0, 1, 0, 2, 0, 1, ...
             if not self.animation == int(self.animation):
@@ -234,16 +233,28 @@ class Game():
                     self.background.accel()
                 # movement control
                 if event.key == pygame.K_UP:
-                    self.sprite.direction.append('up')
+                    if self.background.fouraxis:
+                        self.sprite.direction.insert(0, 'up')
+                    else:
+                        self.sprite.direction.append('up')
                     self.background.moveup()
                 if event.key == pygame.K_DOWN:
-                    self.sprite.direction.append('down')
+                    if self.background.fouraxis:
+                        self.sprite.direction.insert(0, 'down')
+                    else:
+                        self.sprite.direction.append('down')
                     self.background.movedown()
                 if event.key == pygame.K_LEFT:
-                    self.sprite.direction.append('left')
+                    if self.background.fouraxis:
+                        self.sprite.direction.insert(0, 'left')
+                    else:
+                        self.sprite.direction.append('left')
                     self.background.moveleft()
                 if event.key == pygame.K_RIGHT:
-                    self.sprite.direction.append('right')
+                    if self.background.fouraxis:
+                        self.sprite.direction.insert(0, 'right')
+                    else:
+                        self.sprite.direction.append('right')
                     self.background.moveright()
             elif event.type == pygame.KEYUP:
                 # handle speed
