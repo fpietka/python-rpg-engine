@@ -39,7 +39,7 @@ spriteset1 = {
 
 
 class Background(object):
-    def __init__(self, fouraxis=True):
+    def __init__(self, builder, fouraxis=False):
         self.x_velocity = 0
         self.y_velocity = 0
         self.moving = False
@@ -48,6 +48,7 @@ class Background(object):
         # Set movement type
         self.fouraxis = fouraxis
         self.movesquare = False  # XXX will be used to move full squares
+        self.builder = builder
 
     # TODO refactor, this is ugly
     def accel(self):
@@ -118,13 +119,12 @@ class Background(object):
         # Handle boundaries
         if x_axis + self.x_velocity > 0:
             x_axis = 0
-        if x_axis + self.x_velocity < -(MAPSIZE[0] / 2):
-            x_axis = -(MAPSIZE[0] / 2)
+        if x_axis + self.x_velocity < -(self.builder.width / 2):
+            x_axis = -(self.builder.width / 2)
         if y_axis + self.y_velocity > 0:
             y_axis = 0
-        if y_axis + self.y_velocity < -(MAPSIZE[1] / 2):
-            y_axis = -(MAPSIZE[1] / 2)
-
+        if y_axis + self.y_velocity < -(self.builder.height / 2):
+            y_axis = -(self.builder.height / 2)
 
 class PlayerGroup(pygame.sprite.Group):
     "Group for player class"
@@ -191,11 +191,12 @@ class Game():
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode(RESOLUTION)
-        self.fond = Builder().load()
-        self.screen.blit(self.fond, (x_axis, y_axis))
-        pygame.display.flip()
+        self.builder = Builder()
+        self.fond = self.builder.load(self.screen, (x_axis, y_axis))
+        # Blit background
+        self.screen.blit(self.fond, (0, 0))
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
-        self.background = Background()
+        self.background = Background(builder=self.builder)
         # TODO avoid acting on sprite and do actions on group?
         self.sprite = Player()
         self.player = PlayerGroup(self.sprite)
