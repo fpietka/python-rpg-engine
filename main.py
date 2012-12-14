@@ -201,6 +201,7 @@ class Game():
         # TODO avoid acting on sprite and do actions on group?
         self.player = Player()
         self.playerGroup = PlayerGroup(self.player)
+        self.background.setMainSprite(self.player)
 
     def run(self):
         running = True
