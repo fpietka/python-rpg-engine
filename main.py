@@ -9,10 +9,6 @@ RESOLUTION = 800, 600
 MAPSIZE = 8000, 6000
 FPS = 60
 
-MOVING = False
-
-white = 255, 255, 255
-
 x_axis = 0
 y_axis = 0
 
@@ -46,6 +42,7 @@ class Background(object):
     def __init__(self, fouraxis=True):
         self.x_velocity = 0
         self.y_velocity = 0
+        self.moving = False
         self.speed = 3
         self.movestack = list()
         # Set movement type
@@ -114,11 +111,10 @@ class Background(object):
             self.movestack[0] != 'horizontal'):
             y_axis += self.y_velocity
         # Set moving
-        global MOVING
         if self.x_velocity == 0 and self.y_velocity == 0:
-            MOVING = False
+            self.moving = False
         else:
-            MOVING = True
+            self.moving = True
         # Handle boundaries
         if x_axis + self.x_velocity > 0:
             x_axis = 0
