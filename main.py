@@ -50,6 +50,8 @@ class Background(object):
 
         self.sprites = list()
         self.mainSprite = None
+        #coordinates (top left point) of the camera view in the world
+        self.xCamera, self.yCamera = 0, 0;
 
     def setMainSprite(self, sprite):
         self.setSprite(sprite)
