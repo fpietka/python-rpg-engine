@@ -231,6 +231,7 @@ class Game():
         while running:
             pygame.time.Clock().tick(FPS)
             running = self.handleEvents()
+            self.background.update()
             # Blit background
             self.screen.blit(self.fond, (x_axis, y_axis))
             # Blit sprite
