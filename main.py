@@ -108,7 +108,17 @@ class Player(pygame.sprite.Sprite):
         self.movestack = list()
 
     def updatePosition(self):
-        pass
+        self.xPos = min(MAPSIZE[0] - characterSizeX / 2, max(characterSizeX / 2, self.xPos + self.x_velocity))
+        self.yPos = min(MAPSIZE[1] - characterSizeY / 2, max(characterSizeY / 2, self.yPos + self.y_velocity))
+
+        self.rect.center = (self.xPos, self.yPos)
+
+        # Set moving
+        global MOVING
+        if self.x_velocity == 0 and self.y_velocity == 0:
+            MOVING = False
+        else:
+            MOVING = True
 
     def updateFrame(self, tick):
         if not MOVING:
