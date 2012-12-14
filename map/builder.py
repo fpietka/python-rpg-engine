@@ -62,12 +62,14 @@ class Builder():
             tileset.append(subSurface)
 
         # display tiles
-        self.fond = pygame.Surface((8000, 6000))
         # read map
         # TODO read line by line?
         # XXX start with current script root?
         level_map = open("map/level1.map", "rb").read().split("\n")
         for index_y, line in enumerate(level_map, 0):
+            if index_y == 0:
+                self.fond = pygame.Surface((len(line) * 40, len(level_map) * 40))
+                self.fond.fill((255, 0, 255))
             for index_x, square in enumerate(line, 0):
                 if square == '#':
                     tile = tileset[3]
