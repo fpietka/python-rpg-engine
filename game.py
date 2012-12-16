@@ -27,8 +27,6 @@ class Game():
             pygame.time.Clock().tick(consts.FPS)
             running = self.handleEvents()
             self.background.update()
-            # Blit background
-            # Blit background
 
             rect = pygame.Rect(self.background.xCamera, self.background.yCamera, consts.RESOLUTION[0], consts.RESOLUTION[1])
             self.fond = self.builder.fond.subsurface(rect)
@@ -36,8 +34,6 @@ class Game():
             # update part of the script
             rect = pygame.Rect(0, 0, 800, 600)
             pygame.display.update(rect)
-            # update all the screen
-            #pygame.display.flip()
 
     def handleEvents(self):
         # poll for pygame events
