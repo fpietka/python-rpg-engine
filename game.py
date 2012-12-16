@@ -64,8 +64,7 @@ class Game():
                 if event.key == pygame.K_c:
                     #~ create new sprite
                     s = player.Player()
-                    s.xPos = 300
-                    s.yPos = 300
+                    s.updatePosition((300, 300))
                     self.background.addSprite(s, Background.LAYER_CHARACTERS)
             elif event.type == pygame.KEYUP:
                 # handle speed
