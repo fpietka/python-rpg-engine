@@ -47,6 +47,7 @@ class Builder():
         self.level_map = filter(None, open("map/level1.map", "rb").read().split("\n"))
         (self.width, self.height) = (len(self.level_map[0]) * tileset_config['width'], len(self.level_map) *
                 tileset_config['height'])
+        self.fond = pygame.Surface((self.width, self.height))
 
     def load(self, screen, (x, y)):
         self.screen_size = screen.get_size()
@@ -85,7 +86,6 @@ class Builder():
 
     def update(self, (x, y)):
         "Build visible map"
-        self.fond = pygame.Surface((self.width, self.height))
         (width, height) = self.screen_size
 
         import math
