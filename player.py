@@ -57,6 +57,9 @@ class Player(sprite.DynamicSprite):
     def draw(self):
         self.rect.center = (self.xPos, self.yPos)
 
+    def getPosition(self):
+        return (self.xPos, self.yPos)
+
     def updateFrame(self, tick):
         if not self.moving:
             self.frame = 0
