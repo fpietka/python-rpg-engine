@@ -61,6 +61,12 @@ class Game():
                 if event.key == pygame.K_RIGHT:
                     self.player.direction.append('right')
                     self.player.moveleft()
+                if event.key == pygame.K_c:
+                    #~ create new sprite
+                    s = player.Player()
+                    s.xPos = 300
+                    s.yPos = 300
+                    self.background.addSprite(s, Background.LAYER_CHARACTERS)
             elif event.type == pygame.KEYUP:
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
