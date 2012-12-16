@@ -43,10 +43,12 @@ spriteset1 = {
 
 
 class Background(object):
-    def __init__(self, fouraxis=True):
+    def __init__(self, builder, fouraxis=True):
         # Set movement type
         self.fouraxis = fouraxis
         self.movesquare = False # XXX will be used to move full squares
+
+        self.builder = builder
 
         self.sprites = list()
         self.mainSprite = None
@@ -58,7 +60,15 @@ class Background(object):
             s.updatePosition()
             s.updateFrame(pygame.time.get_ticks())
 
-        self.updateFocus()
+            if s == self.sprites[self.mainSprite]:
+                self.updateFocus()
+
+        self.builder.update((self.xCamera, self.yCamera))
+
+        for s in self.sprites:
+            for g in s.groups():
+                g.draw(self.builder.fond)
+
 
     def updateFocus(self):
         #get mainSprite (new) coordinates in the world
@@ -221,7 +231,7 @@ class Game():
         # Blit background
         self.screen.blit(self.fond, (0, 0))
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
-        self.background = Background()
+        self.background = Background(self.builder)
         # TODO avoid acting on sprite and do actions on group?
         self.player = Player()
         self.playerGroup = PlayerGroup(self.player)
@@ -236,9 +246,6 @@ class Game():
             self.background.update()
             # Blit background
             # Blit background
-            self.builder.update((self.background.xCamera, self.background.yCamera))
-            # Blit sprite
-            self.playerGroup.draw(self.builder.fond)
 
             rect = pygame.Rect(self.background.xCamera, self.background.yCamera, RESOLUTION[0], RESOLUTION[1])
             self.fond = self.builder.fond.subsurface(rect)
