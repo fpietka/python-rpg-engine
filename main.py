@@ -65,8 +65,8 @@ class Background(object):
         xMainSprite, yMainSprite = self.sprites[self.mainSprite].xPos, self.sprites[self.mainSprite].yPos
 
         #move camera if not out of world boundaries
-        self.xCamera = max(0, min(MAPSIZE[0] - RESOLUTION[0], xMainSprite - RESOLUTION[0] / 2)) * -1
-        self.yCamera = max(0, min(MAPSIZE[1] - RESOLUTION[1], yMainSprite - RESOLUTION[1] / 2)) * -1
+        self.xCamera = max(0, min(MAPSIZE[0] - RESOLUTION[0], xMainSprite - RESOLUTION[0] / 2))
+        self.yCamera = max(0, min(MAPSIZE[1] - RESOLUTION[1], yMainSprite - RESOLUTION[1] / 2))
 
 
     def setMainSprite(self, sprite):
@@ -215,12 +215,13 @@ class Game():
         global MAPSIZE
         pygame.init()
         self.screen = pygame.display.set_mode(RESOLUTION)
-        self.fond = Builder().load()
-        MAPSIZE = self.fond.get_width(), self.fond.get_height()
-        self.background = Background(False)
-        self.screen.blit(self.fond, (self.background.xCamera, self.background.yCamera))
-        pygame.display.flip()
+        self.builder = Builder()
+        self.fond = self.builder.load(self.screen, (0, 0))
+        MAPSIZE = self.builder.width, self.builder.height
+        # Blit background
+        self.screen.blit(self.fond, (0, 0))
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
+        self.background = Background()
         # TODO avoid acting on sprite and do actions on group?
         self.player = Player()
         self.playerGroup = PlayerGroup(self.player)
@@ -233,11 +234,15 @@ class Game():
             pygame.time.Clock().tick(FPS)
             running = self.handleEvents()
             self.background.update()
-            # Blit sprite
-            self.playerGroup.update(pygame.time.get_ticks())
-            self.playerGroup.draw(self.fond)
             # Blit background
-            self.screen.blit(self.fond, (self.background.xCamera, self.background.yCamera))
+            # Blit background
+            self.builder.update((self.background.xCamera, self.background.yCamera))
+            # Blit sprite
+            self.playerGroup.draw(self.builder.fond)
+
+            rect = pygame.Rect(self.background.xCamera, self.background.yCamera, RESOLUTION[0], RESOLUTION[1])
+            self.fond = self.builder.fond.subsurface(rect)
+            self.screen.blit(self.fond, (0, 0))
             # update part of the script
             rect = pygame.Rect(0, 0, 800, 600)
             pygame.display.update(rect)
