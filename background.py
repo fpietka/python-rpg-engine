@@ -25,8 +25,8 @@ class Background(object):
 
                 s.updateFrame(pygame.time.get_ticks())
 
-            if s == self.mainSprite:
-                self.updateFocus()
+                if s == self.mainSprite:
+                    self.updateFocus()
 
         self.builder.update((self.xCamera, self.yCamera))
 
