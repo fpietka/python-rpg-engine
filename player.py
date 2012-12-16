@@ -31,10 +31,15 @@ class Player(pygame.sprite.Sprite):
         self.movestack = list()
         self.moving = False
 
+    def calculatePosition(self, mapSize):
+        return (
+            min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + self.x_velocity)),
+            min(mapSize[1] - self.characterSizeY / 2, max(self.characterSizeY / 2, self.yPos + self.y_velocity))
+        )
 
-    def updatePosition(self, mapSize):
-        self.xPos = min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + self.x_velocity))
-        self.yPos = min(mapSize[1] - self.characterSizeY / 2, max(self.characterSizeY / 2, self.yPos + self.y_velocity))
+    def updatePosition(self, position):
+        self.xPos = position[0]
+        self.yPos = position[1]
 
         self.rect.center = (self.xPos, self.yPos)
 

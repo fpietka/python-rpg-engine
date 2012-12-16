@@ -21,7 +21,8 @@ class Background(object):
     def update(self):
         for l in self.sprites:
             for s in self.sprites[l]:
-                s.updatePosition((self.builder.width, self.builder.height))
+                s.updatePosition(s.calculatePosition((self.builder.width, self.builder.height)))
+
                 s.updateFrame(pygame.time.get_ticks())
 
             if s == self.mainSprite:
