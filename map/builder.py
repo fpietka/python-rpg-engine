@@ -44,7 +44,7 @@ tileset_properties = (
 
 class Builder():
     def __init__(self):
-        self.level_map = open("map/level1.map", "rb").read().split("\n")
+        self.level_map = filter(None, open("map/level1.map", "rb").read().split("\n"))
         (self.width, self.height) = (len(self.level_map[0]) * tileset_config['width'], len(self.level_map) *
                 tileset_config['height'])
     def load(self, screen, (x, y)):
