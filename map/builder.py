@@ -47,11 +47,12 @@ class Builder():
         self.level_map = filter(None, open("map/level1.map", "rb").read().split("\n"))
         (self.width, self.height) = (len(self.level_map[0]) * tileset_config['width'], len(self.level_map) *
                 tileset_config['height'])
+
     def load(self, screen, (x, y)):
         self.screen_size = screen.get_size()
         self.build_tileset()
-        # display tiles
 
+        # display tiles
         return self.update((x, y))
 
     def build_tileset(self):
