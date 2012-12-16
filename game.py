@@ -17,7 +17,6 @@ class Game():
         self.background = Background(self.builder)
         # TODO avoid acting on sprite and do actions on group?
         self.player = player.Player()
-        self.playerGroup = player.PlayerGroup(self.player)
         self.background.setMainSprite(self.player)
 
     def run(self):
