@@ -106,7 +106,14 @@ class Builder():
                     tile = self.tileset[3]
                 elif square == '.':
                     tile = self.tileset[5]
-                self.fond.blit(tile, ((index_x * 40) - x_pos, (index_y * 40) - y_pos))
+
+                self.fond.blit(
+                    tile,
+                    (
+                        (startCellIndexX + index_x) * tileset_config['width'],
+                        (startCellIndexY + index_y) * tileset_config['width'])
+                    )
+
         return self.fond
 
 # create a game and run it
