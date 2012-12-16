@@ -45,8 +45,8 @@ class Background(object):
         self.yCamera = max(0, min(self.builder.height - consts.RESOLUTION[1], yMainSprite - consts.RESOLUTION[1] / 2))
 
 
-    def setMainSprite(self, sprite):
-        self.addSprite(sprite, Background.LAYER_CHARACTERS)
+    def setMainSprite(self, sprite, layer = LAYER_CHARACTERS):
+        self.addSprite(sprite, layer)
         self.mainSprite = sprite
 
     def addSprite(self, sprite, layer = LAYER_GROUND):
