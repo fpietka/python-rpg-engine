@@ -3,6 +3,9 @@
 import pygame, consts
 
 class Background(object):
+    LAYER_GROUND = 0
+    LAYER_CHARACTERS = 1
+
     def __init__(self, builder, fouraxis=True):
         # Set movement type
         self.fouraxis = fouraxis
