@@ -25,12 +25,17 @@ class Background(object):
                 if s.IS_STATIC:
                     continue
 
+                oldPosition = s.getPosition()
+
                 #~ If the sprite has a movement pattern, move it according to its
                 #~ current position in the pattern
                 if s.movePattern != None:
                     move.getNextPosition (s, s.movePattern)
 
                 s.updatePosition(s.calculatePosition((self.builder.width, self.builder.height)))
+                colliding = pygame.sprite.spritecollide(s, self.sprites[l], False)
+                if len(colliding) > 1:
+                    s.updatePosition(oldPosition)
 
                 s.updateFrame(pygame.time.get_ticks())
 
