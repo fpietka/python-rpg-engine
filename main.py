@@ -215,12 +215,13 @@ class Game():
         global MAPSIZE
         pygame.init()
         self.screen = pygame.display.set_mode(RESOLUTION)
-        self.fond = Builder().load()
-        MAPSIZE = self.fond.get_width(), self.fond.get_height()
-        self.background = Background(False)
-        self.screen.blit(self.fond, (self.background.xCamera, self.background.yCamera))
-        pygame.display.flip()
+        self.builder = Builder()
+        self.fond = self.builder.load(self.screen, (0, 0))
+        MAPSIZE = self.builder.width, self.builder.height
+        # Blit background
+        self.screen.blit(self.fond, (0, 0))
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
+        self.background = Background()
         # TODO avoid acting on sprite and do actions on group?
         self.player = Player()
         self.playerGroup = PlayerGroup(self.player)
