@@ -88,19 +88,19 @@ class Builder():
         (width, height) = self.screen_size
 
         import math
-        x_pos = x % tileset_config['width']
-        y_pos = y % tileset_config['height']
-
         # @TODO lamba or function for that
-        nb_width = int(math.ceil(float(x % tileset_config['width'] + width) / float(tileset_config['width'])))
-        nb_height = int(math.ceil(float(y % tileset_config['height'] + height) / float(tileset_config['height'])))
+        #~ Position in the current cell (px)
+        xPosInCell = x % tileset_config['width']
+        yPosInCell = y % tileset_config['height']
+        #~ number of cells of the area to display
+        nbCellsWidth = int(math.ceil(float(xPosInCell + width) / float(tileset_config['width'])))
+        nbCellsHeight = int(math.ceil(float(yPosInCell + height) / float(tileset_config['height'])))
+        #~ index of the first cell to display
+        startCellIndexX = x / tileset_config['width']
+        startCellIndexY = y / tileset_config['height']
 
-        x_start = x / tileset_config['width']
-        y_start = y / tileset_config['height']
-        #~ print tileset_config['width'], x, x_start, x_start + nb_width
-        for index_y, line in enumerate(range(y_start, y_start + nb_height), 0):
-            for index_x, column in enumerate(range(x_start, x_start + nb_width), 0):
-                #print (line, column)
+        for index_y, line in enumerate(range(startCellIndexY, startCellIndexY + nbCellsHeight), 0):
+            for index_x, column in enumerate(range(startCellIndexX, startCellIndexX + nbCellsWidth), 0):
                 square = self.level_map[line][column]
                 if square == '#':
                     tile = self.tileset[3]
