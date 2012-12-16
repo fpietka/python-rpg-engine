@@ -13,8 +13,6 @@ MOVING = False
 
 white = 255, 255, 255
 
-x_axis = 0
-y_axis = 0
 
 # sprite sets, with mapping containing (top, left)
 sprite_size = (96, 128)
@@ -25,8 +23,10 @@ for x in range(0, 10):
 # choice of the sprite here
 sprite = sprites[0]
 
+characterSizeX, characterSizeY = 32, 32
+
 spriteset1 = {
-    'name': 'dpnpcsq.png', 'height': 32, 'width': 32, 'map': (
+    'name': 'dpnpcsq.png', 'height': characterSizeY, 'width': characterSizeX, 'map': (
         (sprite[0], sprite[1]),
         (sprite[0], sprite[1] + 32),
         (sprite[0], sprite[1] + 64),
@@ -43,14 +43,128 @@ spriteset1 = {
 
 
 class Background(object):
-    def __init__(self, fouraxis=True):
+    def __init__(self, builder, fouraxis=True):
+        # Set movement type
+        self.fouraxis = fouraxis
+        self.movesquare = False # XXX will be used to move full squares
+
+        self.builder = builder
+
+        self.sprites = list()
+        self.mainSprite = None
+        #coordinates (top left point) of the camera view in the world
+        self.xCamera, self.yCamera = 0, 0;
+
+    def update(self):
+        for s in self.sprites:
+            s.updatePosition()
+            s.updateFrame(pygame.time.get_ticks())
+
+            if s == self.sprites[self.mainSprite]:
+                self.updateFocus()
+
+        self.builder.update((self.xCamera, self.yCamera))
+
+        for s in self.sprites:
+            for g in s.groups():
+                g.draw(self.builder.fond)
+
+
+    def updateFocus(self):
+        #get mainSprite (new) coordinates in the world
+        xMainSprite, yMainSprite = self.sprites[self.mainSprite].xPos, self.sprites[self.mainSprite].yPos
+
+        #move camera if not out of world boundaries
+        self.xCamera = max(0, min(MAPSIZE[0] - RESOLUTION[0], xMainSprite - RESOLUTION[0] / 2))
+        self.yCamera = max(0, min(MAPSIZE[1] - RESOLUTION[1], yMainSprite - RESOLUTION[1] / 2))
+
+
+    def setMainSprite(self, sprite):
+        self.setSprite(sprite)
+        self.mainSprite = self.sprites.index(sprite)
+
+    def setSprite(self, sprite):
+        if sprite not in self.sprites:
+            self.sprites.append(sprite)
+
+
+class PlayerGroup(pygame.sprite.Group):
+    "Group for player class"
+
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Player, self).__init__()
+        # Animation parameters
+        self._start = pygame.time.get_ticks()
+        self._delay = 10000 / FPS
+        self._last_update = 0
+        self.frame = 0
+        self.animation = .5
+        # Handle sprite set
+        self.build_spriteset()
+        self.direction = list()
+        self.default_direction = 'down'
+        self.image = self.spriteset['down'][self.frame].convert()
+        self.rect = self.image.get_rect()
+        self.xPos, self.yPos = 400, 300;
+        self.rect.center = (RESOLUTION[0] / 2, RESOLUTION[1] / 2)
         self.x_velocity = 0
         self.y_velocity = 0
         self.speed = 3
         self.movestack = list()
-        # Set movement type
-        self.fouraxis = fouraxis
-        self.movesquare = False  # XXX will be used to move full squares
+
+    def updatePosition(self):
+        self.xPos = min(MAPSIZE[0] - characterSizeX / 2, max(characterSizeX / 2, self.xPos + self.x_velocity))
+        self.yPos = min(MAPSIZE[1] - characterSizeY / 2, max(characterSizeY / 2, self.yPos + self.y_velocity))
+
+        self.rect.center = (self.xPos, self.yPos)
+
+        # Set moving
+        global MOVING
+        if self.x_velocity == 0 and self.y_velocity == 0:
+            MOVING = False
+        else:
+            MOVING = True
+
+    def updateFrame(self, tick):
+        if not MOVING:
+            self.frame = 0
+        elif tick - self._last_update > self._delay:
+            self._last_update = tick
+            # frame should go 0, 1, 0, 2, 0, 1, ...
+            if not self.animation == int(self.animation):
+                self.frame = 0
+            elif self.animation / 2 == int(self.animation / 2):
+                self.frame = 1
+            else:
+                self.frame = 2
+            self.animation += .5
+        try:
+            direction = self.default_direction = self.direction[0]
+        except IndexError:
+            direction = self.default_direction
+        self.image = self.spriteset[direction][self.frame].convert()
+
+    def build_spriteset(self):
+        "Cut and build sprite set"
+        self.fond = pygame.image.load(spriteset1['name']).convert()
+        self.fond.set_colorkey(self.fond.get_at(next(iter(spriteset1['map']))))
+        width = spriteset1['width']
+        height = spriteset1['height']
+        # use map to cut parts
+        spriteset = list()
+        for (left, top) in spriteset1['map']:
+            rect = pygame.Rect(left, top, width, height)
+            spriteset.append(self.fond.subsurface(rect))
+        # build direction there
+        test = {
+            'up': (spriteset[0], spriteset[8], spriteset[7]),
+            'down': (spriteset[9], spriteset[10], spriteset[11]),
+            'left': (spriteset[2], spriteset[1], spriteset[3]),
+            'right': (spriteset[4], spriteset[5], spriteset[6])
+        }
+        self.spriteset = test
 
     # TODO refactor, this is ugly
     def accel(self):
@@ -105,104 +219,23 @@ class Background(object):
         else:
             self.movestack.remove('horizontal')
 
-    def move(self):
-        global x_axis, y_axis
-        if (not self.fouraxis or len(self.movestack) == 0 or
-                self.movestack[0] != 'vertical'):
-            x_axis += self.x_velocity
-        if (not self.fouraxis or len(self.movestack) == 0 or
-            self.movestack[0] != 'horizontal'):
-            y_axis += self.y_velocity
-        # Set moving
-        global MOVING
-        if self.x_velocity == 0 and self.y_velocity == 0:
-            MOVING = False
-        else:
-            MOVING = True
-        # Handle boundaries
-        if x_axis + self.x_velocity > 0:
-            x_axis = 0
-        if x_axis + self.x_velocity < -(MAPSIZE[0] / 2):
-            x_axis = -(MAPSIZE[0] / 2)
-        if y_axis + self.y_velocity > 0:
-            y_axis = 0
-        if y_axis + self.y_velocity < -(MAPSIZE[1] / 2):
-            y_axis = -(MAPSIZE[1] / 2)
-
-
-class PlayerGroup(pygame.sprite.Group):
-    "Group for player class"
-
-
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
-        super(Player, self).__init__()
-        # Animation parameters
-        self._start = pygame.time.get_ticks()
-        self._delay = 10000 / FPS
-        self._last_update = 0
-        self.frame = 0
-        self.animation = .5
-        # Handle sprite set
-        self.build_spriteset()
-        self.direction = list()
-        self.default_direction = 'down'
-        self.image = self.spriteset['down'][self.frame].convert()
-        self.rect = self.image.get_rect()
-        self.rect.center = (800 / 2, 600 / 2)
-
-    def update(self, tick):
-        if not MOVING:
-            self.frame = 0
-        elif tick - self._last_update > self._delay:
-            self._last_update = tick
-            # frame should go 0, 1, 0, 2, 0, 1, ...
-            if not self.animation == int(self.animation):
-                self.frame = 0
-            elif self.animation / 2 == int(self.animation / 2):
-                self.frame = 1
-            else:
-                self.frame = 2
-            self.animation += .5
-        try:
-            direction = self.default_direction = self.direction[-1]
-        except IndexError:
-            direction = self.default_direction
-        self.image = self.spriteset[direction][self.frame].convert()
-
-    def build_spriteset(self):
-        "Cut and build sprite set"
-        self.fond = pygame.image.load(spriteset1['name']).convert()
-        self.fond.set_colorkey(self.fond.get_at(next(iter(spriteset1['map']))))
-        width = spriteset1['width']
-        height = spriteset1['height']
-        # use map to cut parts
-        spriteset = list()
-        for (left, top) in spriteset1['map']:
-            rect = pygame.Rect(left, top, width, height)
-            spriteset.append(self.fond.subsurface(rect))
-        # build direction there
-        test = {
-            'up': (spriteset[0], spriteset[8], spriteset[7]),
-            'down': (spriteset[9], spriteset[10], spriteset[11]),
-            'left': (spriteset[2], spriteset[1], spriteset[3]),
-            'right': (spriteset[4], spriteset[5], spriteset[6])
-        }
-        self.spriteset = test
-
 
 class Game():
     def __init__(self):
+        global MAPSIZE
         pygame.init()
         self.screen = pygame.display.set_mode(RESOLUTION)
-        self.fond = Builder().load()
-        self.screen.blit(self.fond, (x_axis, y_axis))
-        pygame.display.flip()
+        self.builder = Builder()
+        self.fond = self.builder.load(self.screen, (0, 0))
+        MAPSIZE = self.builder.width, self.builder.height
+        # Blit background
+        self.screen.blit(self.fond, (0, 0))
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
-        self.background = Background()
+        self.background = Background(self.builder)
         # TODO avoid acting on sprite and do actions on group?
-        self.sprite = Player()
-        self.player = PlayerGroup(self.sprite)
+        self.player = Player()
+        self.playerGroup = PlayerGroup(self.player)
+        self.background.setMainSprite(self.player)
 
     def run(self):
         running = True
@@ -210,11 +243,13 @@ class Game():
         while running:
             pygame.time.Clock().tick(FPS)
             running = self.handleEvents()
+            self.background.update()
             # Blit background
-            self.screen.blit(self.fond, (x_axis, y_axis))
-            # Blit sprite
-            self.player.update(pygame.time.get_ticks())
-            self.player.draw(self.screen)
+            # Blit background
+
+            rect = pygame.Rect(self.background.xCamera, self.background.yCamera, RESOLUTION[0], RESOLUTION[1])
+            self.fond = self.builder.fond.subsurface(rect)
+            self.screen.blit(self.fond, (0, 0))
             # update part of the script
             rect = pygame.Rect(0, 0, 800, 600)
             pygame.display.update(rect)
@@ -234,38 +269,38 @@ class Game():
                     return False
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.background.accel()
+                    self.player.accel()
                 # movement control
                 if event.key == pygame.K_UP:
-                    self.sprite.direction.append('up')
-                    self.background.moveup()
+                    self.player.direction.append('up')
+                    self.player.movedown()
                 if event.key == pygame.K_DOWN:
-                    self.sprite.direction.append('down')
-                    self.background.movedown()
+                    self.player.direction.append('down')
+                    self.player.moveup()
                 if event.key == pygame.K_LEFT:
-                    self.sprite.direction.append('left')
-                    self.background.moveleft()
+                    self.player.direction.append('left')
+                    self.player.moveright()
                 if event.key == pygame.K_RIGHT:
-                    self.sprite.direction.append('right')
-                    self.background.moveright()
+                    self.player.direction.append('right')
+                    self.player.moveleft()
             elif event.type == pygame.KEYUP:
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.background.decel()
+                    self.player.decel()
                 # stop movement control
                 if event.key == pygame.K_UP:
-                    self.sprite.direction.remove('up')
-                    self.background.movedown()
+                    self.player.direction.remove('up')
+                    self.player.moveup()
                 if event.key == pygame.K_DOWN:
-                    self.sprite.direction.remove('down')
-                    self.background.moveup()
+                    self.player.direction.remove('down')
+                    self.player.movedown()
                 if event.key == pygame.K_LEFT:
-                    self.sprite.direction.remove('left')
-                    self.background.moveright()
+                    self.player.direction.remove('left')
+                    self.player.moveleft()
                 if event.key == pygame.K_RIGHT:
-                    self.sprite.direction.remove('right')
-                    self.background.moveleft()
-        self.background.move()
+                    self.player.direction.remove('right')
+                    self.player.moveright()
+
         # TODO make the sprite move too
         return True
 
