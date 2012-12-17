@@ -1,10 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
-try:
-    import constraint
-except ImportError:
-    print "You will need python-constraint module ... eventually"
 
 tileset_config = {
     'name': 'GRS2ROC.bmp', 'height': 40, 'width': 40, 'map': (
@@ -24,23 +20,6 @@ tileset_config = {
         (240, 360)
     )}
 
-# XXX can be probably done in two properties by side
-tileset_properties = (
-        {'top': 'ggg', 'bottom': 'gss', 'left': 'ggg', 'right': 'gss'},
-        {'top': 'ggg', 'bottom': 'sss', 'left': 'gss', 'right': 'gss'},
-        {'top': 'ggg', 'bottom': 'ssg', 'left': 'gss', 'right': 'ggg'},
-        {'top': 'ggg', 'bottom': 'ggg', 'left': 'ggg', 'right': 'ggg'},
-        {'top': 'gss', 'bottom': 'gss', 'left': 'ggg', 'right': 'sss'},
-        {'top': 'sss', 'bottom': 'sss', 'left': 'sss', 'right': 'sss'},
-        {'top': 'ssg', 'bottom': 'ssg', 'left': 'sss', 'right': 'ggg'},
-        {'top': 'gss', 'bottom': 'sss', 'left': 'gss', 'right': 'sss'},
-        {'top': 'ssg', 'bottom': 'sss', 'left': 'sss', 'right': 'gss'},
-        {'top': 'gss', 'bottom': 'ggg', 'left': 'ggg', 'right': 'ssg'},
-        {'top': 'sss', 'bottom': 'ggg', 'left': 'ssg', 'right': 'ssg'},
-        {'top': 'ssg', 'bottom': 'ggg', 'left': 'ssg', 'right': 'ggg'},
-        {'top': 'sss', 'bottom': 'gss', 'left': 'ssg', 'right': 'sss'},
-        {'top': 'sss', 'bottom': 'ssg', 'left': 'sss', 'right': 'ssg'}
-    )
 
 class Builder():
     def __init__(self):
@@ -116,8 +95,3 @@ class Builder():
                     )
 
         return self.fond
-
-# create a game and run it
-if __name__ == '__main__':
-    builder = Builder()
-    builder.run()
