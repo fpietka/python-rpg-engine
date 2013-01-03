@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.build_spriteset()
         self.direction = list()
         self.default_direction = 'down'
-        self.image = self.spriteset['down'][self.frame].convert()
+        self.image = self.spritesetDirections['down'][self.frame].convert()
         self.rect = self.image.get_rect()
         self.xPos, self.yPos = 400, 300;
         self.rect.center = (consts.RESOLUTION[0] / 2, consts.RESOLUTION[1] / 2)
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
             direction = self.default_direction = self.direction[0]
         except IndexError:
             direction = self.default_direction
-        self.image = self.spriteset[direction][self.frame].convert()
+        self.image = self.spritesetDirections[direction][self.frame].convert()
 
     def build_spriteset(self):
         "Cut and build sprite set"
@@ -100,13 +100,12 @@ class Player(pygame.sprite.Sprite):
             rect = pygame.Rect(left, top, width, height)
             spriteset.append(self.fond.subsurface(rect))
         # build direction there
-        test = {
+        self.spritesetDirections = {
             'up': (spriteset[0], spriteset[8], spriteset[7]),
             'down': (spriteset[9], spriteset[10], spriteset[11]),
             'left': (spriteset[2], spriteset[1], spriteset[3]),
             'right': (spriteset[4], spriteset[5], spriteset[6])
         }
-        self.spriteset = test
 
     # TODO refactor, this is ugly
     def accel(self):
