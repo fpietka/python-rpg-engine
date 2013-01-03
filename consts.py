@@ -22,7 +22,12 @@ tiles = {
             (64, 160),
             (64, 192),
             (64, 224)
-        )
+        ),
+        'hitbox': {
+            'type': hitbox_types_rect,
+            'positionFromCenter': (0, 8),
+            'size': (16, 16),
+        }
     },
     'umbrella': {
         'name': 'dpnpcsq.png', 'height': 32, 'width': 32, 'map': (
@@ -38,9 +43,15 @@ tiles = {
             (64, 32),
             (64, 64),
             (64, 96)
-        )
+        ),
+        'hitbox': {
+            'type': hitbox_types_rect,
+            'positionFromCenter': (0, 8),
+            'size': (16, 16),
+        }
     }
 }
+
 
 movementsPatterns = {
     'rect': {
