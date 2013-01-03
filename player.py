@@ -9,6 +9,8 @@ class Player(sprite.DynamicSprite):
         self.spriteset = consts.tiles[options['tilesGroup']]
         self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
 
+        self._createHitBox()
+
         # Animation parameters
         self._start = pygame.time.get_ticks()
         self._delay = 10000 / consts.FPS
@@ -35,6 +37,11 @@ class Player(sprite.DynamicSprite):
                 raise move.exception('Move pattern attributes are required')
             self.movePattern = options['movePattern']
             self.movePattern['attributes']['topLeft'] = (self.xPos, self.yPos)
+
+    def _createHitBox(self):
+        self.hitBox = pygame.sprite.Sprite()
+        self.hitBox.image = pygame.Surface((int(math.floor(self.characterSizeX * .7)), int(math.floor(self.characterSizeY * .7))))
+        self.hitBox.rect = self.hitBox.image.get_rect()
 
     def calculatePosition(self, mapSize):
         if self.moveX == 0 or self.moveY == 0:
