@@ -33,7 +33,7 @@ class Background(object):
                     move.getNextPosition (s, s.movePattern)
 
                 s.updatePosition(s.calculatePosition((self.builder.width, self.builder.height)))
-                colliding = pygame.sprite.spritecollide(s, self.sprites[l], False)
+                colliding = pygame.sprite.spritecollide(s.hitBox, [s2.hitBox for s2 in self.sprites[l]], False)
                 if len(colliding) > 1:
                     s.updatePosition(oldPosition)
 
