@@ -51,8 +51,10 @@ class Background(object):
         cmpfun = operator.attrgetter("yPos")
 
         for group in self.sprites.itervalues():
+            # to debug, display the hitbox
+            #for sprite in self.sprites[groupIndex]:
+                #~ sprite.image.blit(sprite.hitBox.image, (sprite.spriteset['hitbox']['positionInSprite'][0], sprite.spriteset['hitbox']['positionInSprite'][1]))
             pygame.sprite.RenderUpdates(sorted(self.sprites[l], key=cmpfun)).draw(self.builder.fond)
-
 
     def updateFocus(self):
         #get mainSprite (new) coordinates in the world
