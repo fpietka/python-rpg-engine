@@ -110,28 +110,28 @@ class Player(pygame.sprite.Sprite):
         if self.y_velocity == -6:
             self.y_velocity = -3
 
-    def moveup(self):
+    def movedown(self):
         self.y_velocity += self.speed
         if self.y_velocity != 0:
             self.movestack.append('vertical')
         else:
             self.movestack.remove('vertical')
 
-    def movedown(self):
+    def moveup(self):
         self.y_velocity -= self.speed
         if self.y_velocity != 0:
             self.movestack.append('vertical')
         else:
             self.movestack.remove('vertical')
 
-    def moveleft(self):
+    def moveright(self):
         self.x_velocity += self.speed
         if self.x_velocity != 0:
             self.movestack.append('horizontal')
         else:
             self.movestack.remove('horizontal')
 
-    def moveright(self):
+    def moveleft(self):
         self.x_velocity -= self.speed
         if self.x_velocity != 0:
             self.movestack.append('horizontal')
