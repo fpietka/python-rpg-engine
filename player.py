@@ -42,6 +42,7 @@ class Player(sprite.DynamicSprite):
     def _createHitBox(self):
         self.hitBox = pygame.sprite.Sprite()
         self.hitBox.image = pygame.Surface((self.spriteset['hitbox']['size'][0], self.spriteset['hitbox']['size'][1]))
+        self.hitBox.image.fill((0, 0, 0))
         #handle other hitbox types
         self.hitBox.rect = self.hitBox.image.get_rect()
 
