@@ -9,7 +9,6 @@ class Player(sprite.DynamicSprite):
         self.spriteset = consts.tiles[options['tilesGroup']]
         self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
 
-        self._createHitBox()
 
         # Animation parameters
         self._start = pygame.time.get_ticks()
@@ -27,6 +26,8 @@ class Player(sprite.DynamicSprite):
         self.moveX, self.moveY = 0, 0
         self.speed = 3
         self.moving = False
+        self._createHitBox()
+
 
         if not options.has_key('movePattern'):
             self.movePattern = None
