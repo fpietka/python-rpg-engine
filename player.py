@@ -28,8 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.xPos, self.yPos = 400, 300;
         self.rect.center = (consts.RESOLUTION[0] / 2, consts.RESOLUTION[1] / 2)
-        self.x_velocity = 0
-        self.y_velocity = 0
+        self.x_velocity, self.y_velocity = 0, 0
         self.speed = 3
         self.movestack = list()
         self.moving = False
