@@ -60,8 +60,7 @@ class Player(sprite.DynamicSprite):
 
     def updatePosition(self, position):
         self.xPos, self.yPos = position
-        self.hitBox.rect.center = (self.xPos + self.spriteset['hitbox']['positionFromCenter'][0], self.yPos + self.spriteset['hitbox']['positionFromCenter'][1])
-
+        self.hitBox.rect.center = (self.xPos + self.spriteset['hitbox']['positionInSprite'][0], self.yPos + self.spriteset['hitbox']['positionInSprite'][1])
         # Set moving
         self.moving = not (self.moveX, self.moveY) == (0, 0)
 

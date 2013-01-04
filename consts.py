@@ -25,7 +25,7 @@ tiles = {
         ),
         'hitbox': {
             'type': hitbox_types_rect,
-            'positionFromCenter': (0, 8),
+            'positionInSprite': (16, 8),
             'size': (16, 16),
         }
     },
@@ -46,7 +46,7 @@ tiles = {
         ),
         'hitbox': {
             'type': hitbox_types_rect,
-            'positionFromCenter': (0, 8),
+            'positionInSprite': (8, 8),
             'size': (16, 16),
         }
     }
