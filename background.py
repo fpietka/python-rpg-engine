@@ -37,7 +37,7 @@ class Background(object):
                 if s == self.mainSprite:
                     self.updateFocus()
 
-            new_list = sorted(self.sprites[l], key=lambda x:(x.rect.center[1],x.rect.center[0]))
+            new_list = sorted(self.sprites[l], key=lambda x:(x.yPos, x.yPos))
             self.sprites[l] = pygame.sprite.Group(new_list)
 
         self.builder.update((self.xCamera, self.yCamera))
