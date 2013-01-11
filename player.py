@@ -5,12 +5,10 @@ import pygame, consts
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, tilesGroup):
+    def __init__(self, options):
         super(Player, self).__init__()
         # Spriteset parameters
-        # sprite sets, with mapping containing (top, left)
-        # choice of the sprite here
-        self.spriteset = consts.tiles[tilesGroup]
+        self.spriteset = consts.tiles[options['tilesGroup']]
         self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
 
 
@@ -26,7 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.default_direction = 'down'
         self.image = self.spritesetDirections['down'][self.frame].convert()
         self.rect = self.image.get_rect()
-        self.xPos, self.yPos = 400, 300;
+        self.xPos, self.yPos = options['x'], options['y']
         self.rect.center = (consts.RESOLUTION[0] / 2, consts.RESOLUTION[1] / 2)
         self.x_velocity, self.y_velocity = 0, 0
         self.speed = 3

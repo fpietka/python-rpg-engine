@@ -16,7 +16,11 @@ class Game():
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         self.background = Background(self.builder)
         # TODO avoid acting on sprite and do actions on group?
-        self.player = player.Player('umbrella')
+        self.player = player.Player({
+            'tilesGroup': 'umbrella',
+            'x': 400,
+            'y': 300
+        })
         self.background.setMainSprite(self.player)
 
     def run(self):
@@ -63,8 +67,11 @@ class Game():
                     self.player.moveright()
                 if event.key == pygame.K_c:
                     #~ create new sprite
-                    s = player.Player('scholar')
-                    s.updatePosition((300, 300))
+                    s = player.Player({
+                        'tilesGroup': 'scholar',
+                        'x': 300,
+                        'y': 300
+                    })
                     self.background.addSprite(s, Background.LAYER_CHARACTERS)
             elif event.type == pygame.KEYUP:
                 # handle speed
