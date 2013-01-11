@@ -70,7 +70,14 @@ class Game():
                     s = player.Player({
                         'tilesGroup': 'scholar',
                         'x': 300,
-                        'y': 300
+                        'y': 300,
+                        'movePattern': {
+                            'type': 'rect',
+                            'attributes': {
+                                'width': 200,
+                                'height': 200
+                            }
+                        }
                     })
                     self.background.addSprite(s, Background.LAYER_CHARACTERS)
             elif event.type == pygame.KEYUP:
