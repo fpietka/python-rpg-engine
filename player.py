@@ -139,3 +139,27 @@ class Player(pygame.sprite.Sprite):
             self.movestack.append('horizontal')
         else:
             self.movestack.remove('horizontal')
+
+    def movefulldown(self):
+        self.x_velocity = 0
+        self.movedown()
+        if 'horizontal' in self.movestack:
+            self.movestack.remove('horizontal')
+
+    def movefullup(self):
+        self.x_velocity = 0
+        self.moveup()
+        if 'horizontal' in self.movestack:
+            self.movestack.remove('horizontal')
+
+    def movefullright(self):
+        self.y_velocity = 0
+        self.moveright()
+        if 'vertical' in self.movestack:
+            self.movestack.remove('vertical')
+
+    def movefullleft(self):
+        self.y_velocity = 0
+        self.moveleft()
+        if 'vertical' in self.movestack:
+            self.movestack.remove('vertical')
