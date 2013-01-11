@@ -33,9 +33,11 @@ class Background(object):
                     move.getNextPosition (s, s.movePattern)
 
                 s.updatePosition(s.calculatePosition((self.builder.width, self.builder.height)))
+                s.drawHitBox()
                 colliding = pygame.sprite.spritecollide(s.hitBox, [s2.hitBox for s2 in self.sprites[l]], False)
                 if len(colliding) > 1:
                     s.updatePosition(oldPosition)
+                    s.drawHitBox()
 
                 s.updateFrame(pygame.time.get_ticks())
 
