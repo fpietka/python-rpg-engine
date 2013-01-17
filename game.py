@@ -16,7 +16,7 @@ class Game():
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         self.background = Background(self.builder)
         # TODO avoid acting on sprite and do actions on group?
-        self.player = player.Player()
+        self.player = player.Player('umbrella')
         self.background.setMainSprite(self.player)
 
     def run(self):
@@ -63,7 +63,7 @@ class Game():
                     self.player.moveleft()
                 if event.key == pygame.K_c:
                     #~ create new sprite
-                    s = player.Player()
+                    s = player.Player('scholar')
                     s.updatePosition((300, 300))
                     self.background.addSprite(s, Background.LAYER_CHARACTERS)
             elif event.type == pygame.KEYUP:

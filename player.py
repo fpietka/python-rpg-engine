@@ -5,35 +5,13 @@ import pygame, consts
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, tilesGroup):
         super(Player, self).__init__()
         # Spriteset parameters
         # sprite sets, with mapping containing (top, left)
-        sprite_size = (96, 128)
-        sprites = list()
-        for x in range(0, 10):
-            for y in range(0, 6):
-                sprites.append((sprite_size[0] * x, sprite_size[1] * y))
         # choice of the sprite here
-        sprite = sprites[0]
-
-        self.characterSizeX, self.characterSizeY = 32, 32
-        self.spriteset = {
-            'name': 'dpnpcsq.png', 'height': self.characterSizeY, 'width': self.characterSizeX, 'map': (
-                (sprite[0], sprite[1]),
-                (sprite[0], sprite[1] + 32),
-                (sprite[0], sprite[1] + 64),
-                (sprite[0], sprite[1] + 96),
-                (sprite[0] + 32, sprite[1]),
-                (sprite[0] + 32, sprite[1] + 32),
-                (sprite[0] + 32, sprite[1] + 64),
-                (sprite[0] + 32, sprite[1] + 96),
-                (sprite[0] + 64, sprite[1]),
-                (sprite[0] + 64, sprite[1] + 32),
-                (sprite[0] + 64, sprite[1] + 64),
-                (sprite[0] + 64, sprite[1] + 96)
-            )
-        }
+        self.spriteset = consts.tiles[tilesGroup]
+        self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
 
 
         # Animation parameters
