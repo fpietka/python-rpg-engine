@@ -39,6 +39,9 @@ class Background(object):
 
             self.sprites[l] = pygame.sprite.Group(sorted(self.sprites[l], key=lambda x:(x.yPos, x.yPos)))
 
+            for s in self.sprites[l]:
+                s.draw()
+
         self.builder.update((self.xCamera, self.yCamera))
 
         for l in self.sprites:
