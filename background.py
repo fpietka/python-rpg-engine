@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame, consts
+from move import move
 
 class Background(object):
     LAYER_GROUND = 0
@@ -21,6 +22,11 @@ class Background(object):
     def update(self):
         for l in self.sprites:
             for s in self.sprites[l]:
+                #~ If the sprite has a movement pattern, move it according to its
+                #~ current position in the pattern
+                if s.movePattern != None:
+                    move.getNextPosition (s, s.movePattern)
+
                 s.updatePosition(s.calculatePosition((self.builder.width, self.builder.height)))
 
                 s.updateFrame(pygame.time.get_ticks())

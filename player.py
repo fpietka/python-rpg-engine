@@ -31,6 +31,16 @@ class Player(pygame.sprite.Sprite):
         self.movestack = list()
         self.moving = False
 
+        if not options.has_key('movePattern'):
+            self.movePattern = None
+        else:
+            if not options['movePattern'].has_key('type'):
+                raise move.exception('A move pattern type is required')
+            if not options['movePattern'].has_key('attributes'):
+                raise move.exception('Move pattern attributes are required')
+            self.movePattern = options['movePattern']
+            self.movePattern['attributes']['topLeft'] = (self.xPos, self.yPos)
+
     def calculatePosition(self, mapSize):
         return (
             min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + self.x_velocity)),
@@ -139,3 +149,27 @@ class Player(pygame.sprite.Sprite):
             self.movestack.append('horizontal')
         else:
             self.movestack.remove('horizontal')
+
+    def movefulldown(self):
+        self.x_velocity = 0
+        self.movedown()
+        if 'horizontal' in self.movestack:
+            self.movestack.remove('horizontal')
+
+    def movefullup(self):
+        self.x_velocity = 0
+        self.moveup()
+        if 'horizontal' in self.movestack:
+            self.movestack.remove('horizontal')
+
+    def movefullright(self):
+        self.y_velocity = 0
+        self.moveright()
+        if 'vertical' in self.movestack:
+            self.movestack.remove('vertical')
+
+    def movefullleft(self):
+        self.y_velocity = 0
+        self.moveleft()
+        if 'vertical' in self.movestack:
+            self.movestack.remove('vertical')

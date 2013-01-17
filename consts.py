@@ -41,3 +41,9 @@ tiles = {
         )
     }
 }
+
+movementsPatterns = {
+    'rect': {
+        'attributes': ('width', 'height')
+    }
+}
