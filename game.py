@@ -16,7 +16,11 @@ class Game():
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         self.background = Background(self.builder)
         # TODO avoid acting on sprite and do actions on group?
-        self.player = player.Player()
+        self.player = player.Player({
+            'tilesGroup': 'umbrella',
+            'x': 400,
+            'y': 300
+        })
         self.background.setMainSprite(self.player)
 
     def run(self):
@@ -51,21 +55,23 @@ class Game():
                 # movement control
                 if event.key == pygame.K_UP:
                     self.player.direction.append('up')
-                    self.player.movedown()
+                    self.player.moveup()
                 if event.key == pygame.K_DOWN:
                     self.player.direction.append('down')
-                    self.player.moveup()
+                    self.player.movedown()
                 if event.key == pygame.K_LEFT:
                     self.player.direction.append('left')
-                    self.player.moveright()
+                    self.player.moveleft()
                 if event.key == pygame.K_RIGHT:
                     self.player.direction.append('right')
-                    self.player.moveleft()
+                    self.player.moveright()
                 if event.key == pygame.K_c:
                     #~ create new sprite
-                    s = player.Player()
-                    s.xPos = 300
-                    s.yPos = 300
+                    s = player.Player({
+                        'tilesGroup': 'scholar',
+                        'x': 300,
+                        'y': 300
+                    })
                     self.background.addSprite(s, Background.LAYER_CHARACTERS)
             elif event.type == pygame.KEYUP:
                 # handle speed
@@ -74,16 +80,16 @@ class Game():
                 # stop movement control
                 if event.key == pygame.K_UP:
                     self.player.direction.remove('up')
-                    self.player.moveup()
+                    self.player.movedown()
                 if event.key == pygame.K_DOWN:
                     self.player.direction.remove('down')
-                    self.player.movedown()
+                    self.player.moveup()
                 if event.key == pygame.K_LEFT:
                     self.player.direction.remove('left')
-                    self.player.moveleft()
+                    self.player.moveright()
                 if event.key == pygame.K_RIGHT:
                     self.player.direction.remove('right')
-                    self.player.moveright()
+                    self.player.moveleft()
 
         # TODO make the sprite move too
         return True
