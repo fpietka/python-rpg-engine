@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 import pygame, consts
 
-class PlayerGroup(pygame.sprite.Group):
-    "Group for player class"
 
 
 class Player(pygame.sprite.Sprite):

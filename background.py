@@ -3,6 +3,9 @@
 import pygame, consts
 
 class Background(object):
+    LAYER_GROUND = 0
+    LAYER_CHARACTERS = 1
+
     def __init__(self, builder, fouraxis=True):
         # Set movement type
         self.fouraxis = fouraxis
@@ -10,29 +13,31 @@ class Background(object):
 
         self.builder = builder
 
-        self.sprites = list()
+        self.sprites = dict()
         self.mainSprite = None
         #coordinates (top left point) of the camera view in the world
         self.xCamera, self.yCamera = 0, 0;
 
     def update(self):
-        for s in self.sprites:
-            s.updatePosition((self.builder.width, self.builder.height))
-            s.updateFrame(pygame.time.get_ticks())
+        for l in self.sprites:
+            for s in self.sprites[l]:
+                s.updatePosition((self.builder.width, self.builder.height))
+                s.updateFrame(pygame.time.get_ticks())
 
-            if s == self.sprites[self.mainSprite]:
+            if s == self.mainSprite:
                 self.updateFocus()
 
         self.builder.update((self.xCamera, self.yCamera))
 
-        for s in self.sprites:
-            for g in s.groups():
-                g.draw(self.builder.fond)
+        for l in self.sprites:
+            for s in self.sprites[l]:
+                for g in s.groups():
+                    g.draw(self.builder.fond)
 
 
     def updateFocus(self):
         #get mainSprite (new) coordinates in the world
-        xMainSprite, yMainSprite = self.sprites[self.mainSprite].xPos, self.sprites[self.mainSprite].yPos
+        xMainSprite, yMainSprite = self.mainSprite.xPos, self.mainSprite.yPos
 
         #move camera if not out of world boundaries
         self.xCamera = max(0, min(self.builder.width - consts.RESOLUTION[0], xMainSprite - consts.RESOLUTION[0] / 2))
@@ -40,9 +45,11 @@ class Background(object):
 
 
     def setMainSprite(self, sprite):
-        self.setSprite(sprite)
-        self.mainSprite = self.sprites.index(sprite)
+        self.addSprite(sprite, Background.LAYER_CHARACTERS)
+        self.mainSprite = sprite
 
-    def setSprite(self, sprite):
-        if sprite not in self.sprites:
-            self.sprites.append(sprite)
+    def addSprite(self, sprite, layer = LAYER_GROUND):
+        if not self.sprites.has_key(layer):
+            self.sprites[layer] = pygame.sprite.Group()
+        if sprite not in self.sprites[layer]:
+            self.sprites[layer].add(sprite)
