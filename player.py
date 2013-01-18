@@ -96,16 +96,16 @@ class Player(pygame.sprite.Sprite):
         }
 
     def moveup(self):
-        self.y_velocity += self.speed
-
-    def movedown(self):
         self.y_velocity -= self.speed
 
+    def movedown(self):
+        self.y_velocity += self.speed
+
     def moveleft(self):
-        self.x_velocity += self.speed
+        self.x_velocity -= self.speed
 
     def moveright(self):
-        self.x_velocity -= self.speed
+        self.x_velocity += self.speed
 
     def movefulldown(self):
         self.x_velocity = 0
