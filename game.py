@@ -54,13 +54,13 @@ class Game():
                     self.player.speed = 6
                 # movement control
                 if event.key == pygame.K_UP:
-                    self.player.moveup()
+                    self.player.moveVertical(-1)
                 if event.key == pygame.K_DOWN:
-                    self.player.movedown()
+                    self.player.moveVertical(1)
                 if event.key == pygame.K_LEFT:
-                    self.player.moveleft()
+                    self.player.moveHorizontal(-1)
                 if event.key == pygame.K_RIGHT:
-                    self.player.moveright()
+                    self.player.moveHorizontal(1)
                 if event.key == pygame.K_c:
                     #~ create new sprite
                     s = player.Player({
@@ -82,13 +82,13 @@ class Game():
                     self.player.speed = 3
                 # stop movement control
                 if event.key == pygame.K_UP:
-                    self.player.movedown()
+                    self.player.moveVertical(1)
                 if event.key == pygame.K_DOWN:
-                    self.player.moveup()
+                    self.player.moveVertical(-1)
                 if event.key == pygame.K_LEFT:
-                    self.player.moveright()
+                    self.player.moveHorizontal(1)
                 if event.key == pygame.K_RIGHT:
-                    self.player.moveleft()
+                    self.player.moveHorizontal(-1)
 
         # TODO make the sprite move too
         return True

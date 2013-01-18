@@ -20,17 +20,21 @@ class move:
         yInMove = character.yPos - attributes['topLeft'][1]
 
         if xInMove <= 0 and yInMove <= 0:
-            #~ character.direction.remove('right')
-            character.movefullright()
+            character.stop()
+            #~ move right
+            character.moveHorizontal(1)
         elif xInMove >= attributes['width'] and yInMove <= 0:
-            #~ character.direction.remove('down')
-            character.movefulldown()
+            character.stop()
+            #~ move down
+            character.moveVertical(1)
         elif xInMove >= attributes['width'] and yInMove >= attributes['height']:
-            #~ character.direction.remove('left')
-            character.movefullleft()
+            character.stop()
+            #~ move left
+            character.moveHorizontal(-1)
         elif xInMove <= 0 and yInMove >= attributes['height']:
-            #~ character.direction.remove('top')
-            character.movefullup()
+            character.stop()
+            #~ move up
+            character.moveVertical(-1)
 
 class exception(BaseException):
     pass
