@@ -51,7 +51,7 @@ class Game():
                     return False
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.player.accel()
+                    self.player.speed = 6
                 # movement control
                 if event.key == pygame.K_UP:
                     self.player.moveup()
@@ -79,7 +79,7 @@ class Game():
             elif event.type == pygame.KEYUP:
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.player.decel()
+                    self.player.speed = 3
                 # stop movement control
                 if event.key == pygame.K_UP:
                     self.player.movedown()
