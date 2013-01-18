@@ -41,11 +41,11 @@ class Player(pygame.sprite.Sprite):
 
     def calculatePosition(self, mapSize):
         if self.moveX == 0 or self.moveY == 0:
-            x_velocity = self.moveX * self.speed
-            y_velocity = self.moveY * self.speed
+            x_velocity = int(self.moveX * self.speed)
+            y_velocity = int(self.moveY * self.speed)
         else:
-            x_velocity = self.moveX * int(self.speed / math.sqrt(2))
-            y_velocity = self.moveY * int(self.speed / math.sqrt(2))
+            x_velocity = int(self.moveX * self.speed / math.sqrt(2))
+            y_velocity = int(self.moveY * self.speed / math.sqrt(2))
 
         return (
             min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + x_velocity)),
