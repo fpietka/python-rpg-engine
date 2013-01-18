@@ -24,7 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.spritesetDirections[self.direction][self.frame].convert()
         self.rect = self.image.get_rect()
         self.xPos, self.yPos = options['x'], options['y']
-        self.rect.center = (consts.RESOLUTION[0] / 2, consts.RESOLUTION[1] / 2)
+        self.rect.center = [dimension / 2 for dimension in consts.RESOLUTION]
         self.x_velocity, self.y_velocity = 0, 0
         self.speed = 3
         self.moving = False
