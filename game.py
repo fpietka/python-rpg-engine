@@ -54,16 +54,12 @@ class Game():
                     self.player.accel()
                 # movement control
                 if event.key == pygame.K_UP:
-                    self.player.direction.append('up')
                     self.player.moveup()
                 if event.key == pygame.K_DOWN:
-                    self.player.direction.append('down')
                     self.player.movedown()
                 if event.key == pygame.K_LEFT:
-                    self.player.direction.append('left')
                     self.player.moveleft()
                 if event.key == pygame.K_RIGHT:
-                    self.player.direction.append('right')
                     self.player.moveright()
                 if event.key == pygame.K_c:
                     #~ create new sprite
@@ -86,16 +82,12 @@ class Game():
                     self.player.decel()
                 # stop movement control
                 if event.key == pygame.K_UP:
-                    self.player.direction.remove('up')
                     self.player.movedown()
                 if event.key == pygame.K_DOWN:
-                    self.player.direction.remove('down')
                     self.player.moveup()
                 if event.key == pygame.K_LEFT:
-                    self.player.direction.remove('left')
                     self.player.moveright()
                 if event.key == pygame.K_RIGHT:
-                    self.player.direction.remove('right')
                     self.player.moveleft()
 
         # TODO make the sprite move too
