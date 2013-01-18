@@ -46,16 +46,10 @@ class Player(pygame.sprite.Sprite):
         )
 
     def updatePosition(self, position):
-        self.xPos = position[0]
-        self.yPos = position[1]
-
-        self.rect.center = (self.xPos, self.yPos)
-
+        self.xPos, self.yPos = position
+        self.rect.center = position
         # Set moving
-        if self.x_velocity == 0 and self.y_velocity == 0:
-            self.moving = False
-        else:
-            self.moving = True
+        self.moving = not (self.x_velocity, self.y_velocity) == (0, 0)
 
     def updateFrame(self, tick):
         if not self.moving:
