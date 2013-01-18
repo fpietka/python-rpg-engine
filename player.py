@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, consts
+import pygame, consts, math
 
 
 
@@ -20,15 +20,13 @@ class Player(pygame.sprite.Sprite):
         self.animation = .5
         # Handle sprite set
         self.build_spriteset()
-        self.direction = list()
-        self.default_direction = 'down'
-        self.image = self.spritesetDirections['down'][self.frame].convert()
+        self.direction = 'down'
+        self.image = self.spritesetDirections[self.direction][self.frame].convert()
         self.rect = self.image.get_rect()
         self.xPos, self.yPos = options['x'], options['y']
-        self.rect.center = (consts.RESOLUTION[0] / 2, consts.RESOLUTION[1] / 2)
-        self.x_velocity, self.y_velocity = 0, 0
+        self.rect.center = [dimension / 2 for dimension in consts.RESOLUTION]
+        self.moveX, self.moveY = 0, 0
         self.speed = 3
-        self.movestack = list()
         self.moving = False
 
         if not options.has_key('movePattern'):
@@ -42,22 +40,23 @@ class Player(pygame.sprite.Sprite):
             self.movePattern['attributes']['topLeft'] = (self.xPos, self.yPos)
 
     def calculatePosition(self, mapSize):
+        if self.moveX == 0 or self.moveY == 0:
+            x_velocity = self.moveX * self.speed
+            y_velocity = self.moveY * self.speed
+        else:
+            x_velocity = self.moveX * int(self.speed / math.sqrt(2))
+            y_velocity = self.moveY * int(self.speed / math.sqrt(2))
+
         return (
-            min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + self.x_velocity)),
-            min(mapSize[1] - self.characterSizeY / 2, max(self.characterSizeY / 2, self.yPos + self.y_velocity))
+            min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + x_velocity)),
+            min(mapSize[1] - self.characterSizeY / 2, max(self.characterSizeY / 2, self.yPos + y_velocity))
         )
 
     def updatePosition(self, position):
-        self.xPos = position[0]
-        self.yPos = position[1]
-
-        self.rect.center = (self.xPos, self.yPos)
-
+        self.xPos, self.yPos = position
+        self.rect.center = position
         # Set moving
-        if self.x_velocity == 0 and self.y_velocity == 0:
-            self.moving = False
-        else:
-            self.moving = True
+        self.moving = not (self.moveX, self.moveY) == (0, 0)
 
     def updateFrame(self, tick):
         if not self.moving:
@@ -72,11 +71,17 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.frame = 2
             self.animation += .5
-        try:
-            direction = self.default_direction = self.direction[0]
-        except IndexError:
-            direction = self.default_direction
-        self.image = self.spritesetDirections[direction][self.frame].convert()
+
+        if self.moveX < 0:
+            self.direction = 'left'
+        if self.moveX > 0:
+            self.direction = 'right'
+        if self.moveY < 0:
+            self.direction = 'up'
+        if self.moveY > 0:
+            self.direction = 'down'
+
+        self.image = self.spritesetDirections[self.direction][self.frame].convert()
 
     def build_spriteset(self):
         "Cut and build sprite set"
@@ -97,79 +102,13 @@ class Player(pygame.sprite.Sprite):
             'right': (spriteset[4], spriteset[5], spriteset[6])
         }
 
-    # TODO refactor, this is ugly
-    def accel(self):
-        if self.speed == 3:
-            self.speed = 6
-        if self.x_velocity == 3:
-            self.x_velocity = 6
-        if self.x_velocity == -3:
-            self.x_velocity = -6
-        if self.y_velocity == 3:
-            self.y_velocity = 6
-        if self.y_velocity == -3:
-            self.y_velocity = -6
+    def moveVertical(self, coef=1):
+        self.moveY += coef
 
-    def decel(self):
-        if self.speed == 6:
-            self.speed = 3
-        if self.x_velocity == 6:
-            self.x_velocity = 3
-        if self.x_velocity == -6:
-            self.x_velocity = -3
-        if self.y_velocity == 6:
-            self.y_velocity = 3
-        if self.y_velocity == -6:
-            self.y_velocity = -3
+    def moveHorizontal(self, coef=1):
+        self.moveX += coef
 
-    def movedown(self):
-        self.y_velocity += self.speed
-        if self.y_velocity != 0:
-            self.movestack.append('vertical')
-        else:
-            self.movestack.remove('vertical')
 
-    def moveup(self):
-        self.y_velocity -= self.speed
-        if self.y_velocity != 0:
-            self.movestack.append('vertical')
-        else:
-            self.movestack.remove('vertical')
+    def stop(self):
+        self.moveX = self.moveY = 0
 
-    def moveright(self):
-        self.x_velocity += self.speed
-        if self.x_velocity != 0:
-            self.movestack.append('horizontal')
-        else:
-            self.movestack.remove('horizontal')
-
-    def moveleft(self):
-        self.x_velocity -= self.speed
-        if self.x_velocity != 0:
-            self.movestack.append('horizontal')
-        else:
-            self.movestack.remove('horizontal')
-
-    def movefulldown(self):
-        self.x_velocity = 0
-        self.movedown()
-        if 'horizontal' in self.movestack:
-            self.movestack.remove('horizontal')
-
-    def movefullup(self):
-        self.x_velocity = 0
-        self.moveup()
-        if 'horizontal' in self.movestack:
-            self.movestack.remove('horizontal')
-
-    def movefullright(self):
-        self.y_velocity = 0
-        self.moveright()
-        if 'vertical' in self.movestack:
-            self.movestack.remove('vertical')
-
-    def movefullleft(self):
-        self.y_velocity = 0
-        self.moveleft()
-        if 'vertical' in self.movestack:
-            self.movestack.remove('vertical')

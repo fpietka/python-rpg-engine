@@ -51,20 +51,16 @@ class Game():
                     return False
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.player.accel()
+                    self.player.speed = 6
                 # movement control
                 if event.key == pygame.K_UP:
-                    self.player.direction.append('up')
-                    self.player.moveup()
+                    self.player.moveVertical(-1)
                 if event.key == pygame.K_DOWN:
-                    self.player.direction.append('down')
-                    self.player.movedown()
+                    self.player.moveVertical(1)
                 if event.key == pygame.K_LEFT:
-                    self.player.direction.append('left')
-                    self.player.moveleft()
+                    self.player.moveHorizontal(-1)
                 if event.key == pygame.K_RIGHT:
-                    self.player.direction.append('right')
-                    self.player.moveright()
+                    self.player.moveHorizontal(1)
                 if event.key == pygame.K_c:
                     #~ create new sprite
                     s = player.Player({
@@ -83,20 +79,16 @@ class Game():
             elif event.type == pygame.KEYUP:
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
-                    self.player.decel()
+                    self.player.speed = 3
                 # stop movement control
                 if event.key == pygame.K_UP:
-                    self.player.direction.remove('up')
-                    self.player.movedown()
+                    self.player.moveVertical(1)
                 if event.key == pygame.K_DOWN:
-                    self.player.direction.remove('down')
-                    self.player.moveup()
+                    self.player.moveVertical(-1)
                 if event.key == pygame.K_LEFT:
-                    self.player.direction.remove('left')
-                    self.player.moveright()
+                    self.player.moveHorizontal(1)
                 if event.key == pygame.K_RIGHT:
-                    self.player.direction.remove('right')
-                    self.player.moveleft()
+                    self.player.moveHorizontal(-1)
 
         # TODO make the sprite move too
         return True
