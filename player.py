@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, consts, math
+import pygame, consts, math, move
 
 
 
