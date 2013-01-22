@@ -22,6 +22,9 @@ class Background(object):
     def update(self):
         for l in self.sprites:
             for s in self.sprites[l]:
+                if s.IS_STATIC:
+                    continue
+
                 #~ If the sprite has a movement pattern, move it according to its
                 #~ current position in the pattern
                 if s.movePattern != None:
