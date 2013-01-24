@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, consts, math, move
+import pygame, consts, math, move, sprite
 
-
-
-class Player(pygame.sprite.Sprite):
+class Player(sprite.DynamicSprite):
     def __init__(self, options):
         super(Player, self).__init__()
         # Spriteset parameters
         self.spriteset = consts.tiles[options['tilesGroup']]
         self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
-
 
         # Animation parameters
         self._start = pygame.time.get_ticks()
