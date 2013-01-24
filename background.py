@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, consts
+import pygame, consts, operator
 from move import move
 
 class Background(object):
@@ -20,6 +20,8 @@ class Background(object):
         self.xCamera, self.yCamera = 0, 0;
 
     def update(self):
+        # use operator since it's faster than lambda
+        cmpfun = operator.attrgetter("yPos")
         for l in self.sprites:
             for s in self.sprites[l]:
                 if s.IS_STATIC:
@@ -37,7 +39,7 @@ class Background(object):
                 if s == self.mainSprite:
                     self.updateFocus()
 
-            self.sprites[l] = pygame.sprite.Group(sorted(self.sprites[l], key=lambda x:(x.yPos, x.yPos)))
+            self.sprites[l] = pygame.sprite.Group(sorted(self.sprites[l], key=cmpfun))
 
             for s in self.sprites[l]:
                 s.draw()
