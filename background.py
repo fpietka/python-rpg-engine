@@ -44,10 +44,8 @@ class Background(object):
 
         self.builder.update((self.xCamera, self.yCamera))
 
-        for l in self.sprites:
-            for s in self.sprites[l]:
-                for g in s.groups():
-                    g.draw(self.builder.fond)
+        for group in self.sprites.itervalues():
+            group.draw(self.builder.fond)
 
 
     def updateFocus(self):
