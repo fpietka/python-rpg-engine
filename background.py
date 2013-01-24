@@ -39,7 +39,7 @@ class Background(object):
                 if s == self.mainSprite:
                     self.updateFocus()
 
-            self.sprites[l] = pygame.sprite.Group(sorted(self.sprites[l], key=cmpfun))
+            self.sprites[l] = pygame.sprite.RenderUpdates(sorted(self.sprites[l], key=cmpfun))
 
             for s in self.sprites[l]:
                 s.draw()
@@ -65,6 +65,6 @@ class Background(object):
 
     def addSprite(self, sprite, layer = LAYER_GROUND):
         if not self.sprites.has_key(layer):
-            self.sprites[layer] = pygame.sprite.Group()
+            self.sprites[layer] = pygame.sprite.RenderUpdates()
         if sprite not in self.sprites[layer]:
             self.sprites[layer].add(sprite)
