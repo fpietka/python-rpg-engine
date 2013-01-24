@@ -20,8 +20,6 @@ class Background(object):
         self.xCamera, self.yCamera = 0, 0;
 
     def update(self):
-        # use operator since it's faster than lambda
-        cmpfun = operator.attrgetter("yPos")
         for l in self.sprites:
             for s in self.sprites[l]:
                 if s.IS_STATIC:
@@ -39,15 +37,16 @@ class Background(object):
                 if s == self.mainSprite:
                     self.updateFocus()
 
-            self.sprites[l] = pygame.sprite.RenderUpdates(sorted(self.sprites[l], key=cmpfun))
-
             for s in self.sprites[l]:
                 s.draw()
 
         self.builder.update((self.xCamera, self.yCamera))
 
+        # use operator since it's faster than lambda
+        cmpfun = operator.attrgetter("yPos")
+
         for group in self.sprites.itervalues():
-            group.draw(self.builder.fond)
+            pygame.sprite.RenderUpdates(sorted(self.sprites[l], key=cmpfun)).draw(self.builder.fond)
 
 
     def updateFocus(self):
