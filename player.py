@@ -136,7 +136,7 @@ class Player(sprite.DynamicSprite):
         spriteset = list()
         for (left, top) in self.spriteset['map']:
             rect = pygame.Rect(left, top, width, height)
-            spriteset.append(fond.subsurface(rect))
+            spriteset.append(fond.subsurface(rect).convert())
         # build direction there
         self.spritesetDirections = {
             'up': (spriteset[0], spriteset[8], spriteset[7]),
