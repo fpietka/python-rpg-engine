@@ -25,8 +25,8 @@ tiles = {
         ),
         'hitbox': {
             'type': hitbox_types_rect,
-            'positionInSprite': (16, 8),
-            'size': (16, 16),
+            'positionInSprite': (8, 24),
+            'size': (16, 8),
         }
     },
     'umbrella': {
@@ -46,8 +46,8 @@ tiles = {
         ),
         'hitbox': {
             'type': hitbox_types_rect,
-            'positionInSprite': (8, 8),
-            'size': (16, 16),
+            'positionInSprite': (8, 24),
+            'size': (16, 8),
         }
     }
 }
