@@ -54,8 +54,11 @@ class Background(object):
 
         for group in self.sprites.itervalues():
             # to debug, display the hitbox
-            #for sprite in self.sprites[groupIndex]:
-                #~ sprite.image.blit(sprite.hitBox.image, (sprite.spriteset['hitbox']['positionInSprite'][0], sprite.spriteset['hitbox']['positionInSprite'][1]))
+            #~ for sprite in group:
+                #~ sprite.image.blit(
+                    #~ sprite.hitBox.image,
+                    #~ sprite.spriteset['hitbox']['positionInSprite']
+                #~ )
             pygame.sprite.RenderUpdates(sorted(self.sprites[l], key=cmpfun)).draw(self.builder.fond)
 
     def updateFocus(self):
