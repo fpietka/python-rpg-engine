@@ -25,12 +25,19 @@ class Background(object):
                 if s.IS_STATIC:
                     continue
 
+                oldPosition = s.getPosition()
+
                 #~ If the sprite has a movement pattern, move it according to its
                 #~ current position in the pattern
                 if s.movePattern != None:
                     move.getNextPosition (s, s.movePattern)
 
                 s.updatePosition(s.calculatePosition((self.builder.width, self.builder.height)))
+                s.drawHitBox()
+                colliding = pygame.sprite.spritecollide(s.hitBox, [s2.hitBox for s2 in self.sprites[l]], False)
+                if len(colliding) > 1:
+                    s.updatePosition(oldPosition)
+                    s.drawHitBox()
 
                 s.updateFrame(pygame.time.get_ticks())
 
@@ -46,8 +53,13 @@ class Background(object):
         cmpfun = operator.attrgetter("yPos")
 
         for group in self.sprites.itervalues():
+            # to debug, display the hitbox
+            #~ for sprite in group:
+                #~ sprite.image.blit(
+                    #~ sprite.hitBox.image,
+                    #~ sprite.spriteset['hitbox']['positionInSprite']
+                #~ )
             pygame.sprite.RenderUpdates(sorted(self.sprites[l], key=cmpfun)).draw(self.builder.fond)
-
 
     def updateFocus(self):
         #get mainSprite (new) coordinates in the world

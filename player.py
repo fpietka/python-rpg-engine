@@ -9,6 +9,7 @@ class Player(sprite.DynamicSprite):
         self.spriteset = consts.tiles[options['tilesGroup']]
         self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
 
+
         # Animation parameters
         self._start = pygame.time.get_ticks()
         self._delay = 10000 / consts.FPS
@@ -25,6 +26,8 @@ class Player(sprite.DynamicSprite):
         self.moveX, self.moveY = 0, 0
         self.speed = 3
         self.moving = False
+        self._createHitBox()
+
 
         if not options.has_key('movePattern'):
             self.movePattern = None
@@ -35,6 +38,13 @@ class Player(sprite.DynamicSprite):
                 raise move.exception('Move pattern attributes are required')
             self.movePattern = options['movePattern']
             self.movePattern['attributes']['topLeft'] = (self.xPos, self.yPos)
+
+    def _createHitBox(self):
+        self.hitBox = pygame.sprite.Sprite()
+        self.hitBox.image = pygame.Surface((self.spriteset['hitbox']['size'][0], self.spriteset['hitbox']['size'][1]))
+        self.hitBox.image.fill((0, 0, 0))
+        #handle other hitbox types
+        self.hitBox.rect = self.hitBox.image.get_rect()
 
     def calculatePosition(self, mapSize):
         if self.moveX == 0 or self.moveY == 0:
@@ -56,6 +66,12 @@ class Player(sprite.DynamicSprite):
 
     def draw(self):
         self.rect.center = (self.xPos, self.yPos)
+
+    def drawHitBox(self):
+        self.hitBox.rect.center = (self.xPos + self.spriteset['hitbox']['positionInSprite'][0], self.yPos + self.spriteset['hitbox']['positionInSprite'][1])
+
+    def getPosition(self):
+        return (self.xPos, self.yPos)
 
     def updateFrame(self, tick):
         if not self.moving:
