@@ -7,9 +7,9 @@ tileset_config = {
         (80, 40),
         (80, 120),
         (80, 200),
-        (80, 280), # full grass
+        (80, 280),  # full grass
         (160, 40),
-        (160, 120), # full stone
+        (160, 120),  # full stone
         (160, 200),
         (160, 280),
         (160, 360),
@@ -23,9 +23,14 @@ tileset_config = {
 
 class Builder():
     def __init__(self):
-        self.level_map = filter(None, open("map/level1.map", "rb").read().split("\n"))
-        (self.width, self.height) = (len(self.level_map[0]) * tileset_config['width'], len(self.level_map) *
-                tileset_config['height'])
+        self.level_map = filter(
+            None,
+            open("map/level1.map", "rb").read().split("\n")
+        )
+        (self.width, self.height) = (
+            len(self.level_map[0]) * tileset_config['width'],
+            len(self.level_map) * tileset_config['height']
+        )
         self.fond = pygame.Surface((self.width, self.height))
 
     def load(self, screen, (x, y)):
@@ -73,14 +78,28 @@ class Builder():
         xPosInCell = x % tileset_config['width']
         yPosInCell = y % tileset_config['height']
         #~ number of cells of the area to display
-        nbCellsWidth = int(math.ceil(float(xPosInCell + width) / float(tileset_config['width'])))
-        nbCellsHeight = int(math.ceil(float(yPosInCell + height) / float(tileset_config['height'])))
+        nbCellsWidth = int(
+            math.ceil(
+                float(xPosInCell + width) / float(tileset_config['width'])
+            )
+        )
+        nbCellsHeight = int(
+            math.ceil(
+                float(yPosInCell + height) / float(tileset_config['height'])
+            )
+        )
         #~ index of the first cell to display
         startCellIndexX = x / tileset_config['width']
         startCellIndexY = y / tileset_config['height']
 
-        for index_y, line in enumerate(range(startCellIndexY, startCellIndexY + nbCellsHeight), 0):
-            for index_x, column in enumerate(range(startCellIndexX, startCellIndexX + nbCellsWidth), 0):
+        lines = enumerate(
+            range(startCellIndexY, startCellIndexY + nbCellsHeight), 0
+        )
+        for index_y, line in lines:
+            columns = enumerate(
+                range(startCellIndexX, startCellIndexX + nbCellsWidth), 0
+            )
+            for index_x, column in columns:
                 square = self.level_map[line][column]
                 if square == '#':
                     tile = self.tileset[3]
@@ -91,7 +110,8 @@ class Builder():
                     tile,
                     (
                         (startCellIndexX + index_x) * tileset_config['width'],
-                        (startCellIndexY + index_y) * tileset_config['width'])
+                        (startCellIndexY + index_y) * tileset_config['width']
                     )
+                )
 
         return self.fond

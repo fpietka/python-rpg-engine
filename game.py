@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, consts
+import pygame
+import consts
 from map.builder import Builder
 from background import Background
 import player
+
 
 class Game():
     def __init__(self):
@@ -31,7 +33,12 @@ class Game():
             running = self.handleEvents()
             self.background.update()
 
-            rect = pygame.Rect(self.background.xCamera, self.background.yCamera, consts.RESOLUTION[0], consts.RESOLUTION[1])
+            rect = pygame.Rect(
+                self.background.xCamera,
+                self.background.yCamera,
+                consts.RESOLUTION[0],
+                consts.RESOLUTION[1]
+            )
             self.fond = self.builder.fond.subsurface(rect)
             self.screen.blit(self.fond, (0, 0))
             # update part of the script

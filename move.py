@@ -3,6 +3,7 @@
 
 import consts
 
+
 class move:
     @staticmethod
     def getNextPosition(character, movePattern):
@@ -27,7 +28,8 @@ class move:
             character.stop()
             #~ move down
             character.moveVertical(1)
-        elif xInMove >= attributes['width'] and yInMove >= attributes['height']:
+        elif xInMove >= attributes['width']\
+            and yInMove >= attributes['height']:
             character.stop()
             #~ move left
             character.moveHorizontal(-1)
@@ -35,6 +37,7 @@ class move:
             character.stop()
             #~ move up
             character.moveVertical(-1)
+
 
 class exception(BaseException):
     pass

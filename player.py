@@ -1,14 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, consts, math, move, sprite
+import pygame
+import consts
+import math
+import move
+import sprite
+
 
 class Player(sprite.DynamicSprite):
     def __init__(self, options):
         super(Player, self).__init__()
         # Spriteset parameters
         self.spriteset = consts.tiles[options['tilesGroup']]
-        self.characterSizeX, self.characterSizeY = self.spriteset['width'], self.spriteset['height']
-
+        self.characterSizeX, self.characterSizeY =\
+            self.spriteset['width'], self.spriteset['height']
 
         # Animation parameters
         self._start = pygame.time.get_ticks()
@@ -19,7 +24,7 @@ class Player(sprite.DynamicSprite):
         # Handle sprite set
         self.build_spriteset()
         self.direction = 'down'
-        self.image = self.spritesetDirections[self.direction][self.frame].convert()
+        self.updateDirection()
         self.rect = self.image.get_rect()
         self.xPos, self.yPos = options['x'], options['y']
         self.rect.center = [dimension / 2 for dimension in consts.RESOLUTION]
@@ -28,20 +33,23 @@ class Player(sprite.DynamicSprite):
         self.moving = False
         self._createHitBox()
 
-
-        if not options.has_key('movePattern'):
+        if 'movePattern' not in options:
             self.movePattern = None
         else:
-            if not options['movePattern'].has_key('type'):
+            if 'type' not in options['movePattern']:
                 raise move.exception('A move pattern type is required')
-            if not options['movePattern'].has_key('attributes'):
+            if 'attributes' not in options['movePattern']:
                 raise move.exception('Move pattern attributes are required')
             self.movePattern = options['movePattern']
             self.movePattern['attributes']['topLeft'] = (self.xPos, self.yPos)
 
+    def updateDirection(self):
+        direction = self.spritesetDirections[self.direction][self.frame]
+        self.image = direction.convert()
+
     def _createHitBox(self):
         self.hitBox = pygame.sprite.Sprite()
-        self.hitBox.image = pygame.Surface((self.spriteset['hitbox']['size'][0], self.spriteset['hitbox']['size'][1]))
+        self.hitBox.image = pygame.Surface(self.spriteset['hitbox']['size'])
         self.hitBox.image.fill((0, 0, 0))
         #handle other hitbox types
         self.hitBox.rect = self.hitBox.image.get_rect()
@@ -55,8 +63,20 @@ class Player(sprite.DynamicSprite):
             y_velocity = int(self.moveY * self.speed / math.sqrt(2))
 
         return (
-            min(mapSize[0] - self.characterSizeX / 2, max(self.characterSizeX / 2, self.xPos + x_velocity)),
-            min(mapSize[1] - self.characterSizeY / 2, max(self.characterSizeY / 2, self.yPos + y_velocity))
+            min(
+                mapSize[0] - self.characterSizeX / 2,
+                max(
+                    self.characterSizeX / 2,
+                    self.xPos + x_velocity
+                )
+            ),
+            min(
+                mapSize[1] - self.characterSizeY / 2,
+                max(
+                    self.characterSizeY / 2,
+                    self.yPos + y_velocity
+                )
+            )
         )
 
     def updatePosition(self, position):
@@ -68,7 +88,13 @@ class Player(sprite.DynamicSprite):
         self.rect.center = (self.xPos, self.yPos)
 
     def drawHitBox(self):
-        self.hitBox.rect.center = (self.xPos + self.spriteset['hitbox']['positionInSprite'][0], self.yPos + self.spriteset['hitbox']['positionInSprite'][1])
+        self.hitBox.rect.center = map(
+            sum,
+            zip(
+                (self.xPos, self.yPos),
+                self.spriteset['hitbox']['positionInSprite']
+            )
+        )
 
     def getPosition(self):
         return (self.xPos, self.yPos)
@@ -96,12 +122,14 @@ class Player(sprite.DynamicSprite):
         if self.moveY > 0:
             self.direction = 'down'
 
-        self.image = self.spritesetDirections[self.direction][self.frame].convert()
+        self.updateDirection()
 
     def build_spriteset(self):
         "Cut and build sprite set"
         self.fond = pygame.image.load(self.spriteset['name']).convert()
-        self.fond.set_colorkey(self.fond.get_at(next(iter(self.spriteset['map']))))
+        self.fond.set_colorkey(
+            self.fond.get_at(next(iter(self.spriteset['map'])))
+        )
         width = self.spriteset['width']
         height = self.spriteset['height']
         # use map to cut parts
@@ -123,7 +151,5 @@ class Player(sprite.DynamicSprite):
     def moveHorizontal(self, coef=1):
         self.moveX += coef
 
-
     def stop(self):
         self.moveX = self.moveY = 0
-
