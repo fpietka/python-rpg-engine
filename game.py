@@ -39,8 +39,8 @@ class Game():
             self.fond = self.background.fond.subsurface(rect)
             # XXX to replace by self.background.fond
             self.screen.blit(self.fond, (0, 0))
-            # update part of the script
-            rect = pygame.Rect(0, 0, 800, 600)
+            # update screen
+            rect = pygame.Rect(0, 0, consts.RESOLUTION[0], consts.RESOLUTION[1])
             pygame.display.update(rect)
 
     def handleEvents(self):
