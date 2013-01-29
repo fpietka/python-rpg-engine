@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import pygame
 
+import math
+
 tileset_config = {
     'name': 'GRS2ROC.bmp', 'height': 40, 'width': 40, 'map': (
         (80, 40),
@@ -52,15 +54,18 @@ class Builder():
                     print ord(char)
 
         """
+        # load the image with the tiles
         fond = pygame.image.load(tileset_config['name']).convert()
+        # get width/height from config
         width = tileset_config['width']
         height = tileset_config['height']
         self.tileset = list()
-        for index, map in enumerate(tileset_config['map']):
-            top = map[0]
-            left = map[1]
+        # cut out tiles from tileset
+        for index, mapcells in enumerate(tileset_config['map']):
+            top, left = mapcells
             rect = pygame.Rect(left, top, width, height)
             subSurface = fond.subsurface(rect)
+            # add subsurface to the collection
             self.tileset.append(subSurface)
         return self
 
@@ -68,12 +73,14 @@ class Builder():
         "Build visible map"
         (width, height) = self.screen_size
 
-        import math
         # @TODO lamba or function for that
         #~ Position in the current cell (px)
+        # get position in the world (x, y) and figure out
+        # where to start blitting the cell itself
         xPosInCell = x % tileset_config['width']
         yPosInCell = y % tileset_config['height']
         #~ number of cells of the area to display
+        # according to their size and the display size
         nbCellsWidth = int(
             math.ceil(
                 float(xPosInCell + width) / float(tileset_config['width'])
