@@ -53,7 +53,6 @@ class Builder():
             subSurface = fond.subsurface(rect)
             # add subsurface to the collection
             self.tileset.append(subSurface)
-        return self
 
     def update(self, (x, y)):
         "Build visible map"
