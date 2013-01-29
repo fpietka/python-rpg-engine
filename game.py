@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import pygame
 import consts
-from map.builder import Builder
 from background import Background
 import player
 
@@ -11,12 +10,9 @@ class Game():
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
-        self.builder = Builder()
-        self.fond = self.builder.load(self.screen, (0, 0))
-        # Blit background
-        self.screen.blit(self.fond, (0, 0))
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
-        self.background = Background(self.builder)
+        # Blit background
+        self.background = Background(self.screen, (0, 0))
         # TODO avoid acting on sprite and do actions on group?
         self.player = player.Player({
             'tilesGroup': 'umbrella',
@@ -39,7 +35,7 @@ class Game():
                 consts.RESOLUTION[0],
                 consts.RESOLUTION[1]
             )
-            self.fond = self.builder.fond.subsurface(rect)
+            self.fond = self.background.fond.subsurface(rect)
             self.screen.blit(self.fond, (0, 0))
             # update part of the script
             rect = pygame.Rect(0, 0, 800, 600)

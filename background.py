@@ -3,6 +3,7 @@
 import pygame
 import consts
 import operator
+from map.builder import Builder
 from move import move
 
 
@@ -10,12 +11,13 @@ class Background(object):
     LAYER_GROUND = 0
     LAYER_CHARACTERS = 1
 
-    def __init__(self, builder, fouraxis=True):
+    def __init__(self, screen, (x, y), fouraxis=True):
         # Set movement type
         self.fouraxis = fouraxis
         self.movesquare = False  # XXX will be used to move full squares
 
-        self.builder = builder
+        self.builder = Builder()
+        self.fond = self.builder.load(screen, (x, y))
 
         self.sprites = dict()
         self.mainSprite = None
@@ -58,7 +60,7 @@ class Background(object):
             for s in self.sprites[l]:
                 s.draw()
 
-        self.builder.update((self.xCamera, self.yCamera))
+        self.fond = self.builder.update((self.xCamera, self.yCamera))
 
         # use operator since it's faster than lambda
         cmpfun = operator.attrgetter("yPos")
