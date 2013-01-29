@@ -22,7 +22,7 @@ tileset_config = {
 
 
 class Builder():
-    def __init__(self):
+    def __init__(self, screen):
         self.level_map = filter(
             None,
             open("map/level1.map", "rb").read().split("\n")
@@ -31,14 +31,10 @@ class Builder():
             len(self.level_map[0]) * tileset_config['width'],
             len(self.level_map) * tileset_config['height']
         )
-        self.fond = pygame.Surface((self.width, self.height))
-
-    def load(self, screen, (x, y)):
         self.screen_size = screen.get_size()
+        # XXX big world!!
+        self.fond = pygame.Surface((self.width, self.height))
         self.build_tileset()
-
-        # display tiles
-        return self.update((x, y))
 
     def build_tileset(self):
         "Build tile set"

@@ -16,9 +16,7 @@ class Background(object):
         self.fouraxis = fouraxis
         self.movesquare = False  # XXX will be used to move full squares
 
-        self.builder = Builder()
-        self.fond = self.builder.load(screen, (x, y))
-
+        self.builder = Builder(screen)
         self.sprites = dict()
         self.mainSprite = None
         #coordinates (top left point) of the camera view in the world
