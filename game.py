@@ -29,16 +29,8 @@ class Game():
             running = self.handleEvents()
             self.background.update(self.screen.get_size())
 
-            # XXX create subsurface of the big world
-            rect = pygame.Rect(
-                self.background.xCamera,
-                self.background.yCamera,
-                consts.RESOLUTION[0],
-                consts.RESOLUTION[1]
-            )
-            self.fond = self.background.fond.subsurface(rect)
-            # XXX to replace by self.background.fond
-            self.screen.blit(self.fond, (0, 0))
+            camera = - self.background.xCamera, - self.background.yCamera
+            self.screen.blit(self.background.fond, (0, 0))
             # update screen
             rect = pygame.Rect(0, 0, consts.RESOLUTION[0], consts.RESOLUTION[1])
             pygame.display.update(rect)

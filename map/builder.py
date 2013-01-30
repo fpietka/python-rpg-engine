@@ -33,9 +33,6 @@ class Builder():
             len(self.level_map[0]) * tileset_config['width'],
             len(self.level_map) * tileset_config['height']
         )
-        self.screen_size = screen.get_size()
-        # XXX big world!!
-        self.fond = pygame.Surface((self.width, self.height))
         self.build_tileset()
 
     def build_tileset(self):
@@ -95,12 +92,12 @@ class Builder():
                 elif square == '.':
                     tile = self.tileset[5]
 
-                self.fond.blit(
+                fond.blit(
                     tile,
                     (
-                        (startCellIndexX + index_x) * tileset_config['width'],
-                        (startCellIndexY + index_y) * tileset_config['width']
+                        index_x * tileset_config['width'] - xPosInCell,
+                        index_y * tileset_config['height'] - yPosInCell
                     )
                 )
 
-        return self.fond
+        return fond

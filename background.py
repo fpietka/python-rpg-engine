@@ -72,7 +72,7 @@ class Background(object):
                 #~ )
             pygame.sprite.RenderUpdates(
                 sorted(group, key=cmpfun)
-            ).draw(self.builder.fond)
+            ).draw(self.fond)
 
     def updateFocus(self):
         #get mainSprite (new) coordinates in the world
