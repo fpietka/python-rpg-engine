@@ -12,7 +12,7 @@ class Game():
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         # Blit background
-        self.background = Background(self.screen, (0, 0))
+        self.background = Background((0, 0))
         # TODO avoid acting on sprite and do actions on group?
         self.player = player.Player({
             'tilesGroup': 'umbrella',
@@ -27,7 +27,7 @@ class Game():
         while running:
             pygame.time.Clock().tick(consts.FPS)
             running = self.handleEvents()
-            self.background.update()
+            self.background.update(self.screen.get_size())
 
             # XXX create subsurface of the big world
             rect = pygame.Rect(

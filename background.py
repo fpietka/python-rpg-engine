@@ -11,18 +11,18 @@ class Background(object):
     LAYER_GROUND = 0
     LAYER_CHARACTERS = 1
 
-    def __init__(self, screen, (x, y), fouraxis=True):
+    def __init__(self, (x, y), fouraxis=True):
         # Set movement type
         self.fouraxis = fouraxis
         self.movesquare = False  # XXX will be used to move full squares
 
-        self.builder = Builder(screen)
+        self.builder = Builder()
         self.sprites = dict()
         self.mainSprite = None
         #coordinates (top left point) of the camera view in the world
         self.xCamera, self.yCamera = 0, 0
 
-    def update(self):
+    def update(self, screen_size):
         for l in self.sprites:
             for s in self.sprites[l]:
                 if s.IS_STATIC:
@@ -58,7 +58,7 @@ class Background(object):
             for s in self.sprites[l]:
                 s.draw()
 
-        self.fond = self.builder.update((self.xCamera, self.yCamera))
+        self.fond = self.builder.update((self.xCamera, self.yCamera), screen_size)
 
         # use operator since it's faster than lambda
         cmpfun = operator.attrgetter("yPos")

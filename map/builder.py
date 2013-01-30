@@ -24,7 +24,7 @@ tileset_config = {
 
 
 class Builder():
-    def __init__(self, screen):
+    def __init__(self):
         self.level_map = filter(
             None,
             open("map/level1.map", "rb").read().split("\n")
@@ -54,9 +54,10 @@ class Builder():
             # add subsurface to the collection
             self.tileset.append(subSurface)
 
-    def update(self, (x, y)):
+    def update(self, (x, y), screen_size):
         "Build visible map"
-        (width, height) = self.screen_size
+        (width, height) = screen_size
+        fond = pygame.Surface((screen_size))
 
         # @TODO lamba or function for that
         #~ Position in the current cell (px)
