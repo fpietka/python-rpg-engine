@@ -56,7 +56,7 @@ class Background(object):
                     self.updateFocus()
 
             for s in self.sprites[l]:
-                s.draw()
+                s.draw(self.xCamera, self.yCamera)
 
         self.fond = self.builder.update((self.xCamera, self.yCamera), screen_size)
 
