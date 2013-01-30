@@ -84,8 +84,8 @@ class Player(sprite.DynamicSprite):
         # Set moving
         self.moving = not (self.moveX, self.moveY) == (0, 0)
 
-    def draw(self):
-        self.rect.center = (self.xPos, self.yPos)
+    def draw(self, x, y):
+        self.rect.center = (self.xPos - x, self.yPos - y)
 
     def drawHitBox(self):
         self.hitBox.rect.center = map(

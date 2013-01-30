@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import pygame
 
+import math
+
 tileset_config = {
     'name': 'GRS2ROC.bmp', 'height': 40, 'width': 40, 'map': (
         (80, 40),
@@ -31,53 +33,37 @@ class Builder():
             len(self.level_map[0]) * tileset_config['width'],
             len(self.level_map) * tileset_config['height']
         )
-        self.fond = pygame.Surface((self.width, self.height))
-
-    def load(self, screen, (x, y)):
-        self.screen_size = screen.get_size()
         self.build_tileset()
-
-        # display tiles
-        return self.update((x, y))
 
     def build_tileset(self):
         "Build tile set"
-        """
-        from xml.dom import minidom
-        from base64 import b64decode
-        from zlib import decompress
-
-        data = minidom.parse('map.tmx').documentElement
-
-        for layer in data.getElementsByTagName('layer'):
-            element = layer.getElementsByTagName('data')[0].firstChild.data
-            for char in decompress(b64decode(element)):
-                if ord(char) not in (0, 40):
-                    print ord(char)
-
-        """
-        fond = pygame.image.load(tileset_config['name']).convert()
+        # load the image with the tiles
+        resource = pygame.image.load(tileset_config['name']).convert()
+        # get width/height from config
         width = tileset_config['width']
         height = tileset_config['height']
         self.tileset = list()
-        for index, map in enumerate(tileset_config['map']):
-            top = map[0]
-            left = map[1]
+        # cut out tiles from tileset
+        for index, mapcells in enumerate(tileset_config['map']):
+            top, left = mapcells
             rect = pygame.Rect(left, top, width, height)
-            subSurface = fond.subsurface(rect)
+            subSurface = resource.subsurface(rect)
+            # add subsurface to the collection
             self.tileset.append(subSurface)
-        return self
 
-    def update(self, (x, y)):
+    def update(self, (x, y), screen_size):
         "Build visible map"
-        (width, height) = self.screen_size
+        (width, height) = screen_size
+        fond = pygame.Surface((screen_size))
 
-        import math
         # @TODO lamba or function for that
         #~ Position in the current cell (px)
+        # get position in the world (x, y) and figure out
+        # where to start blitting the cell itself
         xPosInCell = x % tileset_config['width']
         yPosInCell = y % tileset_config['height']
         #~ number of cells of the area to display
+        # according to their size and the display size
         nbCellsWidth = int(
             math.ceil(
                 float(xPosInCell + width) / float(tileset_config['width'])
@@ -106,12 +92,12 @@ class Builder():
                 elif square == '.':
                     tile = self.tileset[5]
 
-                self.fond.blit(
+                fond.blit(
                     tile,
                     (
-                        (startCellIndexX + index_x) * tileset_config['width'],
-                        (startCellIndexY + index_y) * tileset_config['width']
+                        index_x * tileset_config['width'] - xPosInCell,
+                        index_y * tileset_config['height'] - yPosInCell
                     )
                 )
 
-        return self.fond
+        return fond
