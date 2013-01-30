@@ -38,7 +38,7 @@ class Builder():
     def build_tileset(self):
         "Build tile set"
         # load the image with the tiles
-        fond = pygame.image.load(tileset_config['name']).convert()
+        resource = pygame.image.load(tileset_config['name']).convert()
         # get width/height from config
         width = tileset_config['width']
         height = tileset_config['height']
@@ -47,7 +47,7 @@ class Builder():
         for index, mapcells in enumerate(tileset_config['map']):
             top, left = mapcells
             rect = pygame.Rect(left, top, width, height)
-            subSurface = fond.subsurface(rect)
+            subSurface = resource.subsurface(rect)
             # add subsurface to the collection
             self.tileset.append(subSurface)
 
