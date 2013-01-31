@@ -126,9 +126,9 @@ class Player(sprite.DynamicSprite):
 
     def build_spriteset(self):
         "Cut and build sprite set"
-        self.fond = pygame.image.load(self.spriteset['name']).convert()
-        self.fond.set_colorkey(
-            self.fond.get_at(next(iter(self.spriteset['map'])))
+        fond = pygame.image.load(self.spriteset['name']).convert()
+        fond.set_colorkey(
+            fond.get_at(next(iter(self.spriteset['map'])))
         )
         width = self.spriteset['width']
         height = self.spriteset['height']
@@ -136,7 +136,7 @@ class Player(sprite.DynamicSprite):
         spriteset = list()
         for (left, top) in self.spriteset['map']:
             rect = pygame.Rect(left, top, width, height)
-            spriteset.append(self.fond.subsurface(rect))
+            spriteset.append(fond.subsurface(rect).convert())
         # build direction there
         self.spritesetDirections = {
             'up': (spriteset[0], spriteset[8], spriteset[7]),
