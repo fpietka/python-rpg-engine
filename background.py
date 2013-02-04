@@ -70,7 +70,7 @@ class Background(object):
                     #~ sprite.hitBox.image,
                     #~ sprite.spriteset['hitbox']['positionInSprite']
                 #~ )
-            pygame.sprite.RenderUpdates(
+            pygame.sprite.OrderedUpdates(
                 sorted(group, key=cmpfun)
             ).draw(self.fond)
 
@@ -100,6 +100,6 @@ class Background(object):
 
     def addSprite(self, sprite, layer=LAYER_GROUND):
         if layer not in self.sprites:
-            self.sprites[layer] = pygame.sprite.RenderUpdates()
+            self.sprites[layer] = pygame.sprite.OrderedUpdates()
         if sprite not in self.sprites[layer]:
             self.sprites[layer].add(sprite)
