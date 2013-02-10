@@ -11,6 +11,9 @@ class Player(sprite.DynamicSprite):
         super(Player, self).__init__()
 
         self.fouraxis = fouraxis
+        # based on pririty by orientation
+        # XXX we can also do a priority by last input
+        self.movement_priority = 'vertical'
 
         # Spriteset parameters
         self.spriteset = consts.tiles[options['tilesGroup']]
