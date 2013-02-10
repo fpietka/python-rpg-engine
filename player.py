@@ -60,6 +60,7 @@ class Player(sprite.DynamicSprite):
         self.hitBox.rect = self.hitBox.image.get_rect()
 
     def calculatePosition(self, mapSize):
+        # Continuous movement type
         if self.moveX == 0 or self.moveY == 0:
             x_velocity = int(self.moveX * self.speed)
             y_velocity = int(self.moveY * self.speed)
@@ -77,6 +78,7 @@ class Player(sprite.DynamicSprite):
                 else:
                     x_velocity = 0
         else:
+            # diagonal moves
             x_velocity = int(self.moveX * self.speed / math.sqrt(2))
             y_velocity = int(self.moveY * self.speed / math.sqrt(2))
 
