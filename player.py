@@ -63,6 +63,19 @@ class Player(sprite.DynamicSprite):
         if self.moveX == 0 or self.moveY == 0:
             x_velocity = int(self.moveX * self.speed)
             y_velocity = int(self.moveY * self.speed)
+        elif self.fouraxis:
+            if self.movement_priority == 'horizontal':
+                x_velocity = int(self.moveX * self.speed)
+                if x_velocity == 0:
+                    y_velocity = int(self.moveY * self.speed)
+                else:
+                    y_velocity = 0
+            elif self.movement_priority == 'vertical':
+                y_velocity = int(self.moveY * self.speed)
+                if y_velocity == 0:
+                    x_velocity = int(self.moveX * self.speed)
+                else:
+                    x_velocity = 0
         else:
             x_velocity = int(self.moveX * self.speed / math.sqrt(2))
             y_velocity = int(self.moveY * self.speed / math.sqrt(2))
