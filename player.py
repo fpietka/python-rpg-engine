@@ -7,8 +7,11 @@ import sprite
 
 
 class Player(sprite.DynamicSprite):
-    def __init__(self, options):
+    def __init__(self, options, fouraxis=False):
         super(Player, self).__init__()
+
+        self.fouraxis = fouraxis
+
         # Spriteset parameters
         self.spriteset = consts.tiles[options['tilesGroup']]
         self.characterSizeX, self.characterSizeY =\

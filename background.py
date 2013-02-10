@@ -10,9 +10,8 @@ class Background(object):
     LAYER_GROUND = 0
     LAYER_CHARACTERS = 1
 
-    def __init__(self, (x, y), fouraxis=True):
+    def __init__(self, (x, y)):
         # Set movement type
-        self.fouraxis = fouraxis
         self.movesquare = False  # XXX will be used to move full squares
 
         self.builder = Builder()

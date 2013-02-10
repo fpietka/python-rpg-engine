@@ -17,7 +17,7 @@ class Game():
             'tilesGroup': 'umbrella',
             'x': 400,
             'y': 300
-        })
+        }, True)
         self.background.setMainSprite(self.player)
 
     def run(self):
