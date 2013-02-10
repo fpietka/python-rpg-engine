@@ -20,6 +20,7 @@ class Game():
         })
         self.background.setMainSprite(self.player)
 
+
     def run(self):
         running = True
         # run until an event tells us to stop
