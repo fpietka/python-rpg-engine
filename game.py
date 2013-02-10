@@ -29,6 +29,11 @@ class Game():
             self.background.update(self.screen.get_size())
 
             camera = - self.background.xCamera, - self.background.yCamera
+
+            myfont = pygame.font.SysFont("monospace", 15)
+            label = myfont.render("Test text", 1, (255, 255, 0))
+            self.background.fond.blit(label, (10, 10))
+
             self.screen.blit(self.background.fond, (0, 0))
             # update screen
             rect = pygame.Rect(
