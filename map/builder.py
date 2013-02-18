@@ -49,10 +49,10 @@ class Builder():
             # add subsurface to the collection
             self.tileset.append(subSurface)
 
-    def update(self, (x, y), screen_size):
+    def update(self, (x, y), (width, height)):
         "Build visible map"
-        (width, height) = screen_size
-        fond = pygame.Surface((screen_size))
+
+        fond = pygame.Surface((width, height))
 
         # @TODO lamba or function for that
         #~ Position in the current cell (px)
