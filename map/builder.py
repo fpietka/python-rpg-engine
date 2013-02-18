@@ -2,6 +2,9 @@
 import pygame
 import math
 
+"""
+Description of the map to use
+"""
 tileset_config = {
     'name': 'GRS2ROC.bmp', 'height': 40, 'width': 40, 'map': (
         (80, 40),
@@ -22,7 +25,22 @@ tileset_config = {
 
 
 class Builder():
+    """
+    Class to build the world
+
+    The purpose of this class is to create a picture from a tiles set and a map
+    description.
+    """
+
     def __init__(self):
+        """
+        Construct of the class.
+
+        This method:
+            - loads a .map file containing the map description (which tile to
+        use at each coordinate of the map)
+            - loads the availables tiles for the map as surfaces in a list
+        """
         self.level_map = filter(
             None,
             open("map/level1.map", "rb").read().split("\n")
@@ -34,7 +52,11 @@ class Builder():
         self.build_tileset()
 
     def build_tileset(self):
-        "Build tile set"
+        """
+        Build tiles set
+
+        This method loads the availables tiles for the map as surfaces in a list
+        """
         # load the image with the tiles
         resource = pygame.image.load(tileset_config['name']).convert()
         # get width/height from config
@@ -50,7 +72,18 @@ class Builder():
             self.tileset.append(subSurface)
 
     def update(self, (x, y), (width, height)):
-        "Build visible map"
+        """
+        B.update((x, y), (width, height)) -> pygame.Surface
+
+        Build visible map
+
+        This method take in arguments an area described with a tuple for it's
+        top-left position and a tuple for it's width-height.
+        The visible section of the map is got from this area and a surface is created
+        with the visible tiles.
+
+        param
+        """
 
         fond = pygame.Surface((width, height))
 
