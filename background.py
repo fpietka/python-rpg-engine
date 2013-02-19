@@ -30,7 +30,7 @@ class Background(object):
         sprites = SpritesLoader.load(mapName)
 
         for sprite in sprites:
-            self.addSprite(player.Player(sprite), sprite['layer'])
+            self.addSprite(sprite[0], sprite[1])
 
     def update(self, screen_size):
         for l in self.sprites:

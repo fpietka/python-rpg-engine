@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import pygame, json
+import pygame
+import json
+import player
 
 class SpritesLoader():
     @staticmethod
@@ -10,15 +12,28 @@ class SpritesLoader():
         for key, sprite in enumerate(spritesRaw):
             if len(sprite) == 1:
                 continue
-            sprites.append(dict())
-            sprites[key]['tilesGroup'] = sprite[0]
-            sprites[key]['layer'] = sprite[2]
-            sprites[key]['static'] = (sprite[3] == 'True')
+            s = None
+            if sprite[0] == 'player':
+                s = SpritesLoader.createPlayer(sprite)
 
-            if not sprites[key]['static'] and sprite[4] is not '':
-                sprites[key]['movePattern'] = json.loads(sprite[4])
+            if s is not None:
+                sprites.append(s)
 
-            position = json.loads(sprite[1])
-            sprites[key]['x'] = position[0]
-            sprites[key]['y'] = position[1]
         return sprites
+
+    @staticmethod
+    def createPlayer(sprite):
+        s = dict()
+        s['tilesGroup'] = sprite[1]
+
+        position = json.loads(sprite[2])
+        s['x'] = position[0]
+        s['y'] = position[1]
+
+        s['static'] = (sprite[4] == 'True')
+
+        if not s['static'] and sprite[5] is not '':
+            s['movePattern'] = json.loads(sprite[5])
+
+
+        return (player.Player(s), sprite[3])
