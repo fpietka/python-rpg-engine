@@ -22,10 +22,10 @@ tileset_config = {
 
 
 class Builder():
-    def __init__(self):
+    def __init__(self, mapName):
         self.level_map = filter(
             None,
-            open("map/level1.map", "rb").read().split("\n")
+            open("map/" + mapName + ".map", "rb").read().split("\n")
         )
         (self.width, self.height) = (
             len(self.level_map[0]) * tileset_config['width'],
