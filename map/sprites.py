@@ -36,4 +36,4 @@ class SpritesLoader():
             s['movePattern'] = json.loads(sprite[5])
 
 
-        return (player.Player(s), sprite[3])
+        return (player.Player(s), int(sprite[3]))
