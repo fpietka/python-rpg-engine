@@ -3,6 +3,7 @@ import pygame
 import consts
 import operator
 from map.builder import Builder
+from map.sprites import SpritesLoader
 from move import move
 
 
@@ -15,11 +16,21 @@ class Background(object):
         self.fouraxis = fouraxis
         self.movesquare = False  # XXX will be used to move full squares
 
-        self.builder = Builder()
+        self.loadMap('level1')
         self.sprites = dict()
         self.mainSprite = None
         #coordinates (top left point) of the camera view in the world
         self.xCamera, self.yCamera = 0, 0
+
+    def loadMap(self, mapName):
+        #~ Build the level's map
+        self.builder = Builder(mapName)
+
+        #~ Load the level's sprites
+        sprites = SpritesLoader.load(mapName)
+
+        for sprite in sprites:
+            self.addSprite(player.Player(sprite), sprite['layer'])
 
     def update(self, screen_size):
         for l in self.sprites:
