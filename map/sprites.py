@@ -4,10 +4,14 @@ import pygame
 import json
 import player
 
+
 class SpritesLoader():
     @staticmethod
     def load(mapName):
-        spritesRaw = [line.split(';') for line in open("map/" + mapName + ".sprites", "rb").read().split("\n")]
+        spritesRaw = [
+            line.split(';') for line in
+                open("map/" + mapName + ".sprites", "rb").read().split("\n")
+        ]
         sprites = list()
         for key, sprite in enumerate(spritesRaw):
             if len(sprite) == 1:
@@ -34,6 +38,5 @@ class SpritesLoader():
 
         if not s['static'] and sprite[5] is not '':
             s['movePattern'] = json.loads(sprite[5])
-
 
         return (player.Player(s), int(sprite[3]))

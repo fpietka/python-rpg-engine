@@ -35,7 +35,12 @@ class Builder():
             for index, map in enumerate(tilesGroup[1]):
                 top = map[0]
                 left = map[1]
-                rect = pygame.Rect(left, top, self.tileSize['width'], self.tileSize['height'])
+                rect = pygame.Rect(
+                    left,
+                    top,
+                    self.tileSize['width'],
+                    self.tileSize['height']
+                )
                 subSurface = fond.subsurface(rect)
                 self.tileset.append(subSurface)
 
