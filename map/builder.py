@@ -55,7 +55,8 @@ class Builder():
         """
         Build tiles set
 
-        This method loads the availables tiles for the map as surfaces in a list
+        This method loads the availables tiles for the map as surfaces in a
+        list
         """
         # load the image with the tiles
         resource = pygame.image.load(tileset_config['name']).convert()
@@ -79,8 +80,8 @@ class Builder():
 
         This method take in arguments an area described with a tuple for it's
         top-left position and a tuple for it's width-height.
-        The visible section of the map is got from this area and a surface is created
-        with the visible tiles.
+        The visible section of the map is got from this area and a surface is
+        created with the visible tiles.
 
         param
         """
