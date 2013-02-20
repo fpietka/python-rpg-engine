@@ -31,7 +31,12 @@ class Game():
             camera = - self.background.xCamera, - self.background.yCamera
             self.screen.blit(self.background.fond, (0, 0))
             # update screen
-            rect = pygame.Rect(0, 0, consts.RESOLUTION[0], consts.RESOLUTION[1])
+            rect = pygame.Rect(
+                0,
+                0,
+                consts.RESOLUTION[0],
+                consts.RESOLUTION[1]
+            )
             pygame.display.update(rect)
 
     def handleEvents(self):

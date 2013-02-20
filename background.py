@@ -57,7 +57,9 @@ class Background(object):
             for s in self.sprites[l]:
                 s.draw(self.xCamera, self.yCamera)
 
-        self.fond = self.builder.update((self.xCamera, self.yCamera), screen_size)
+        self.fond = self.builder.update(
+            (self.xCamera, self.yCamera), screen_size
+        )
 
         # use operator since it's faster than lambda
         cmpfun = operator.attrgetter("yPos")
