@@ -91,6 +91,22 @@ class Game():
                         }
                     })
                     self.background.addSprite(s, Background.LAYER_CHARACTERS)
+
+            elif event.type == pygame.JOYBUTTONDOWN:
+                # Joystick control
+                # handle speed
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['button1']:
+                    self.player.speed = 6
+                # movement control
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['up']:
+                    self.player.moveVertical(-1)
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['down']:
+                    self.player.moveVertical(1)
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['left']:
+                    self.player.moveHorizontal(-1)
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['right']:
+                    self.player.moveHorizontal(1)
+
             elif event.type == pygame.KEYUP:
                 # handle speed
                 if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
@@ -103,6 +119,21 @@ class Game():
                 if event.key == pygame.K_LEFT:
                     self.player.moveHorizontal(1)
                 if event.key == pygame.K_RIGHT:
+                    self.player.moveHorizontal(-1)
+
+            elif event.type == pygame.JOYBUTTONUP:
+                # Joystick control
+                # handle speed
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['button1']:
+                    self.player.speed = 3
+                # stop movement control
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['up']:
+                    self.player.moveVertical(1)
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['down']:
+                    self.player.moveVertical(-1)
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['left']:
+                    self.player.moveHorizontal(1)
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['right']:
                     self.player.moveHorizontal(-1)
 
         # TODO make the sprite move too
