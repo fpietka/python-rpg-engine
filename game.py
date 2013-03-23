@@ -4,10 +4,16 @@ import consts
 from background import Background
 import player
 
+from lib.debug import Debug
 
 class Game():
-    def __init__(self):
+    def __init__(self, debug=False):
         pygame.init()
+
+        # XXX clean up
+        self.label = dict()
+        self.debug = debug
+
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         # Blit background
@@ -31,9 +37,10 @@ class Game():
 
             camera = - self.background.xCamera, - self.background.yCamera
 
-            myfont = pygame.font.SysFont("monospace", 15)
-            label = myfont.render("Test text", 1, (255, 255, 0))
-            self.background.fond.blit(label, (10, 10))
+            # Display all post that occured before that line
+            if self.debug and self.label:
+                for key, value in enumerate(self.label.itervalues(), 1):
+                    self.background.fond.blit(value, (10, key * 14))
 
             self.screen.blit(self.background.fond, (0, 0))
             # update screen
@@ -50,7 +57,10 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-
+            elif event.type == Debug.DEBUG:
+                myfont = pygame.font.SysFont("monospace", 15)
+                message = event.message.popitem()
+                self.label[message[0]] = myfont.render(message[1], 1, (255, 255, 0))
             # handle user input
             elif event.type == pygame.KEYDOWN:
                 # if the user presses escape or 'q', quit the event loop.

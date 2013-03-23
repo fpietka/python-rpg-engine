@@ -5,6 +5,7 @@ import math
 import move
 import sprite
 
+from lib.debug import Debug
 
 class Player(sprite.DynamicSprite):
     def __init__(self, options):
@@ -61,6 +62,8 @@ class Player(sprite.DynamicSprite):
             x_velocity = int(self.moveX * self.speed / math.sqrt(2))
             y_velocity = int(self.moveY * self.speed / math.sqrt(2))
 
+        Debug.post("Velocity", "%d / %d" % (x_velocity, y_velocity))
+
         return (
             min(
                 mapSize[0] - self.characterSizeX / 2,
@@ -80,6 +83,7 @@ class Player(sprite.DynamicSprite):
 
     def updatePosition(self, position):
         self.xPos, self.yPos = position
+        Debug.post("Position", "%d / %d" % (position))
         # Set moving
         self.moving = not (self.moveX, self.moveY) == (0, 0)
 

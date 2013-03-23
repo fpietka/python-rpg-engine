@@ -4,7 +4,9 @@ import pygame
 
 from game import Game
 
+DEBUG = True
+
 # create a game and run it
 if __name__ == '__main__':
-    game = Game()
+    game = Game(DEBUG)
     game.run()
