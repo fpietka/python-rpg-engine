@@ -136,5 +136,23 @@ class Game():
                 if event.button == consts.JOYSTICK[self.joystick.get_name()]['right']:
                     self.player.moveHorizontal(-1)
 
+            if event.type == pygame.JOYAXISMOTION:
+                # We won't need to slow diagonals
+                self.player.axismove = True
+                if abs(round(event.value, 1)) > 0.1:
+                    # Reduce steps
+                    value = round(event.value, 1)
+                else:
+                    # Try to handle back to the middle
+                    value = 0
+                # We must not add up those values, but use them as they are
+                if event.axis == 1:
+                    self.player.moveVertical(value, absolute=True)
+                elif event.axis == 0:
+                    self.player.moveHorizontal(value, absolute=True)
+                pygame.event.pump()
+            else:
+                self.player.axismove = False
+
         # TODO make the sprite move too
         return True

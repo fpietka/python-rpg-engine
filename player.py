@@ -31,6 +31,7 @@ class Player(sprite.DynamicSprite):
         self.speed = 3
         self.moving = False
         self._createHitBox()
+        self.axismove = False
 
         if 'movePattern' not in options:
             self.movePattern = None
@@ -54,7 +55,7 @@ class Player(sprite.DynamicSprite):
         self.hitBox.rect = self.hitBox.image.get_rect()
 
     def calculatePosition(self, mapSize):
-        if self.moveX == 0 or self.moveY == 0:
+        if self.moveX == 0 or self.moveY == 0 or self.axismove:
             x_velocity = int(self.moveX * self.speed)
             y_velocity = int(self.moveY * self.speed)
         else:
@@ -144,11 +145,17 @@ class Player(sprite.DynamicSprite):
             'right': (spriteset[4], spriteset[5], spriteset[6])
         }
 
-    def moveVertical(self, coef=1):
-        self.moveY += coef
+    def moveVertical(self, coef=1, absolute=False):
+        if absolute:
+            self.moveY = coef
+        else:
+            self.moveY += coef
 
-    def moveHorizontal(self, coef=1):
-        self.moveX += coef
+    def moveHorizontal(self, coef=1, absolute=False):
+        if absolute:
+            self.moveX = coef
+        else:
+            self.moveX += coef
 
     def stop(self):
         self.moveX = self.moveY = 0
