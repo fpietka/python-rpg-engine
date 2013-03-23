@@ -95,7 +95,7 @@ class Game():
             elif event.type == pygame.JOYBUTTONDOWN:
                 # Joystick control
                 # handle speed
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['button1']:
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['B']:
                     self.player.speed = 6
                 # movement control
                 if event.button == consts.JOYSTICK[self.joystick.get_name()]['up']:
@@ -124,7 +124,7 @@ class Game():
             elif event.type == pygame.JOYBUTTONUP:
                 # Joystick control
                 # handle speed
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['button1']:
+                if event.button == consts.JOYSTICK[self.joystick.get_name()]['B']:
                     self.player.speed = 3
                 # stop movement control
                 if event.button == consts.JOYSTICK[self.joystick.get_name()]['up']:
