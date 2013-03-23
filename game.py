@@ -4,6 +4,15 @@ import consts
 from background import Background
 import player
 
+from os import getpid
+
+try:
+    import psutil
+except ImportError:
+    print "Missing needed module: python-psutil"
+    import sys
+    sys.exit(1)
+
 from lib.debug import Debug
 
 class Game():
@@ -25,13 +34,29 @@ class Game():
             'y': 300
         })
         self.background.setMainSprite(self.player)
-
+        self.clock = pygame.time.Clock()
+        self.process = psutil.Process(getpid())
+        self.cpu = self.process.get_cpu_percent(interval=0.0)
+        self.memory = str(self.process.get_memory_info()[0] / 1024 / 1024) + ' Mb'
 
     def run(self):
         running = True
+        if self.debug:
+            # Initialize debug
+            running_time = 0
+            last_time = 0
         # run until an event tells us to stop
         while running:
-            pygame.time.Clock().tick(consts.FPS)
+            if self.debug:
+                running_time += self.clock.tick(consts.FPS)
+                if running_time - last_time >= 3000:
+                    last_time = running_time
+                    self.cpu = self.process.get_cpu_percent(interval=0.0)
+                    self.memory = str(self.process.get_memory_info()[0] / 1024 / 1024) + ' Mb'
+                Debug.post("RAM", self.memory)
+                Debug.post("CPU", self.cpu)
+                Debug.post("FPS", "%.2f" % self.clock.get_fps())
+
             running = self.handleEvents()
             self.background.update(self.screen.get_size())
 
