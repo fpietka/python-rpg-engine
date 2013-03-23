@@ -8,6 +8,20 @@ import player
 class Game():
     def __init__(self):
         pygame.init()
+
+        pygame.joystick.init()
+
+        if pygame.joystick.get_count() >= 1:
+            for joystick_id in range(0, pygame.joystick.get_count()):
+                joystick = pygame.joystick.Joystick(joystick_id)
+                # Stop on first matching joystick
+                if joystick.get_name() in consts.JOYSTICK:
+                    print "Initializing Joystick id:%d" % joystick.get_id()
+                    joystick.init()
+                    self.joystick = joystick
+                    print "%s (%d axis)" % (joystick.get_name(), joystick.get_numaxes())
+                    break
+
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         # Blit background
