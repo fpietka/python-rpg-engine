@@ -22,10 +22,15 @@ class Game():
             'y': 300
         })
         self.background.setMainSprite(self.player)
-        # Initialize joystick if any
+        self.init_joystick()
+
+    def init_joystick(self):
+        """
+        Initialize a joystick if available
+        """
         pygame.joystick.init()
         if pygame.joystick.get_count() == 0:
-            return self
+            return
         for joystick_id in range(0, pygame.joystick.get_count()):
             joystick = pygame.joystick.Joystick(joystick_id)
             # Stop on first matching joystick
