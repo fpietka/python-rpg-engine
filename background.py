@@ -47,7 +47,11 @@ class Background(object):
                 )
                 if len(colliding) > 1:
                     s.updatePosition(oldPosition)
+                    s.moving = False
                     s.drawHitBox()
+                elif s.movePattern is not None:
+                    # Get sprites with move patterns move again
+                    s.moving = True
 
                 s.updateFrame(pygame.time.get_ticks())
 
