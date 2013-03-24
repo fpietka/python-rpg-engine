@@ -7,6 +7,9 @@ import player
 
 class Game():
     def __init__(self):
+        """
+        Initialize the game
+        """
         pygame.init()
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
@@ -36,6 +39,9 @@ class Game():
                 break
 
     def run(self):
+        """
+        Main loop
+        """
         running = True
         # run until an event tells us to stop
         while running:
@@ -55,7 +61,9 @@ class Game():
             pygame.display.update(rect)
 
     def handleEvents(self):
-        # poll for pygame events
+        """
+        Poll for pygame events
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
