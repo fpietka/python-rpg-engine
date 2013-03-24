@@ -8,20 +8,6 @@ import player
 class Game():
     def __init__(self):
         pygame.init()
-
-        pygame.joystick.init()
-
-        if pygame.joystick.get_count() >= 1:
-            for joystick_id in range(0, pygame.joystick.get_count()):
-                joystick = pygame.joystick.Joystick(joystick_id)
-                # Stop on first matching joystick
-                if joystick.get_name() in consts.JOYSTICK:
-                    print "Initializing Joystick id:%d" % joystick.get_id()
-                    joystick.init()
-                    self.joystick = joystick
-                    print "%s (%d axis)" % (joystick.get_name(), joystick.get_numaxes())
-                    break
-
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         # Blit background
@@ -33,6 +19,21 @@ class Game():
             'y': 300
         })
         self.background.setMainSprite(self.player)
+        # Initialize joystick if any
+        pygame.joystick.init()
+        if pygame.joystick.get_count() == 0:
+            return self
+        for joystick_id in range(0, pygame.joystick.get_count()):
+            joystick = pygame.joystick.Joystick(joystick_id)
+            # Stop on first matching joystick
+            if joystick.get_name() in consts.JOYSTICK:
+                print "Initializing Joystick id:%d" % joystick.get_id()
+                joystick.init()
+                self.joystick_mapping = consts.JOYSTICK[joystick.get_name()]
+                self.joystick = joystick
+                joystick_info = (joystick.get_name(), joystick.get_numaxes())
+                print "%s (%d axis)" % joystick_info
+                break
 
     def run(self):
         running = True
@@ -95,16 +96,16 @@ class Game():
             elif event.type == pygame.JOYBUTTONDOWN:
                 # Joystick control
                 # handle speed
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['B']:
+                if event.button == self.joystick_mapping['B']:
                     self.player.speed = 6
                 # movement control
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['up']:
+                if event.button == self.joystick_mapping['up']:
                     self.player.moveVertical(-1)
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['down']:
+                if event.button == self.joystick_mapping['down']:
                     self.player.moveVertical(1)
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['left']:
+                if event.button == self.joystick_mapping['left']:
                     self.player.moveHorizontal(-1)
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['right']:
+                if event.button == self.joystick_mapping['right']:
                     self.player.moveHorizontal(1)
 
             elif event.type == pygame.KEYUP:
@@ -124,16 +125,16 @@ class Game():
             elif event.type == pygame.JOYBUTTONUP:
                 # Joystick control
                 # handle speed
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['B']:
+                if event.button == self.joystick_mapping['B']:
                     self.player.speed = 3
                 # stop movement control
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['up']:
+                if event.button == self.joystick_mapping['up']:
                     self.player.moveVertical(1)
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['down']:
+                if event.button == self.joystick_mapping['down']:
                     self.player.moveVertical(-1)
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['left']:
+                if event.button == self.joystick_mapping['left']:
                     self.player.moveHorizontal(1)
-                if event.button == consts.JOYSTICK[self.joystick.get_name()]['right']:
+                if event.button == self.joystick_mapping['right']:
                     self.player.moveHorizontal(-1)
 
             if event.type == pygame.JOYAXISMOTION:
