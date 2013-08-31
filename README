@@ -1,1 +1,6 @@
-Python RPG game engine
+# Python RPG game engine
+
+## Required packages
+
+Python 2.7
+python-psutil
