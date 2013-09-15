@@ -32,6 +32,7 @@ class Player(sprite.DynamicSprite):
         self.speed = 3
         self.moving = False
         self._createHitBox()
+        self.ismainplayer = False
 
         if 'movePattern' not in options:
             self.movePattern = None
@@ -62,7 +63,8 @@ class Player(sprite.DynamicSprite):
             x_velocity = int(self.moveX * self.speed / math.sqrt(2))
             y_velocity = int(self.moveY * self.speed / math.sqrt(2))
 
-        Debug.post("Velocity", "%d / %d" % (x_velocity, y_velocity))
+        if self.ismainplayer:
+            Debug.post("Velocity", "%d / %d" % (x_velocity, y_velocity))
 
         return (
             min(
@@ -83,7 +85,8 @@ class Player(sprite.DynamicSprite):
 
     def updatePosition(self, position):
         self.xPos, self.yPos = position
-        Debug.post("Position", "%d / %d" % (position))
+        if self.ismainplayer:
+            Debug.post("Position", "%d / %d" % (position))
         # Set moving
         self.moving = not (self.moveX, self.moveY) == (0, 0)
 

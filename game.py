@@ -33,6 +33,7 @@ class Game():
             'x': 400,
             'y': 300
         })
+        self.player.ismainplayer = True
         self.background.setMainSprite(self.player)
         self.clock = pygame.time.Clock()
         self.process = psutil.Process(getpid())
