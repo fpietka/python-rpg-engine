@@ -17,7 +17,7 @@ class Game():
         self.background = Background((0, 0))
         # TODO avoid acting on sprite and do actions on group?
         self.player = player.Player({
-            'tilesGroup': 'umbrella',
+            'tilesGroup': 'new',
             'x': 400,
             'y': 300
         })

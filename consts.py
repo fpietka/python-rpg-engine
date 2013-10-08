@@ -68,6 +68,27 @@ tiles = {
             'positionInSprite': (8, 24),
             'size': (16, 8),
         }
+    },
+    'new': {
+        'name': '43510_1256969973.PNG', 'height': 32, 'width': 24, 'map': (
+            (0, 0),
+            (1, 3),
+            (0, 3),
+            (2, 3),
+            (0, 1),
+            (1, 1),
+            (2, 1),
+            (2, 0),
+            (1, 0),
+            (0, 2),
+            (1, 2),
+            (2, 2)
+        ),
+        'hitbox': {
+            'type': hitbox_types_rect,
+            'positionInSprite': (8, 24),
+            'size': (16, 8),
+        }
     }
 }
 
