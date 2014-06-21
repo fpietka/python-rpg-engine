@@ -20,6 +20,23 @@ JOYSTICK = {
         "Xbox": 8,
         "Left stick": 9,
         "Right stick": 10
+    },
+    "linkdev device (Analog 2-axis 8-button 2-hat)": {
+        "up": 13,
+        "down": 14,
+        "left": 11,
+        "right": 12,
+        "A": 0,
+        "B": 1,
+        "X": 2,
+        "Y": 3,
+        "LB": 4,
+        "RB": 5,
+        "Back": 6,
+        "Start": 7,
+        "Xbox": 8,
+        "Left stick": 9,
+        "Right stick": 10
     }
 }
 
