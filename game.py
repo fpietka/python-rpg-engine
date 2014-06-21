@@ -38,9 +38,11 @@ class Game():
             if joystick.get_name() in consts.JOYSTICK:
                 print "Initializing Joystick id:%d" % joystick.get_id()
                 joystick.init()
-                self.joystick_mapping = consts.JOYSTICK[joystick.get_name()]
+                name = joystick.get_name()
+                numaxes = joystick.get_numaxes()
+                self.joystick_mapping = consts.JOYSTICK[name]
                 self.joystick = joystick
-                joystick_info = (joystick.get_name(), joystick.get_numaxes())
+                joystick_info = (name, numaxes)
                 print "%s (%d axis)" % joystick_info
                 break
 
@@ -55,7 +57,6 @@ class Game():
             running = self.handleEvents()
             self.background.update(self.screen.get_size())
 
-            camera = - self.background.xCamera, - self.background.yCamera
             self.screen.blit(self.background.fond, (0, 0))
             # update screen
             rect = pygame.Rect(
@@ -92,7 +93,7 @@ class Game():
                 if event.key == pygame.K_RIGHT:
                     self.player.moveHorizontal(1)
                 if event.key == pygame.K_c:
-                    #~ create new sprite
+                    # create new sprite
                     s = player.Player({
                         'tilesGroup': 'scholar',
                         'x': 300,
