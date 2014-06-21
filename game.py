@@ -11,6 +11,7 @@ class Game():
         Initialize the game
         """
         pygame.init()
+        pygame.mouse.set_visible(False)
         self.screen = pygame.display.set_mode(consts.RESOLUTION)
         pygame.event.set_allowed([pygame.QUIT, pygame.KEYDOWN, pygame.KEYUP])
         # Blit background
